@@ -1,3 +1,3 @@
 # CavHire 
 
-## BSDS Team - Ethan, Vinith, Teagan 
+## BSDS Team - Ethan C, Vinith, Teagan 
