@@ -1,4 +1,6 @@
-google
-streamlit
-dotenv
+python-dotenv
+pinecone
 google-generativeai
+openai
+langchain
+langchain-community
