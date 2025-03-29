@@ -1,0 +1,5 @@
+langchain
+Pinecone
+google.generativeai
+langchain-pinecone
+streamlit
