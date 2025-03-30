@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>CavHire</title>
   <meta charset="UTF-8" />
@@ -8,17 +9,29 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+
 
   <style>
-    body, h1, h2, h3, h4, h5, h6 {
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       font-family: "Lato", sans-serif;
     }
 
-    .w3-bar, h1, button {
+    .w3-bar,
+    h1,
+    button {
       font-family: "Montserrat", sans-serif;
     }
 
-    .fa-anchor, .fa-coffee {
+    .fa-anchor,
+    .fa-coffee {
       font-size: 200px;
     }
 
@@ -46,21 +59,33 @@
       left: 0;
       background: var(--bc);
       animation: revealingIn var(--td) var(--d) forwards,
-                 revealingOut var(--td) var(--t) forwards;
+        revealingOut var(--td) var(--t) forwards;
     }
 
     @keyframes revealBlock {
-      100% { color: #0f0f0f; }
+      100% {
+        color: #0f0f0f;
+      }
     }
 
     @keyframes revealingIn {
-      0% { width: 0; }
-      100% { width: 100%; }
+      0% {
+        width: 0;
+      }
+
+      100% {
+        width: 100%;
+      }
     }
 
     @keyframes revealingOut {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(100%); }
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(100%);
+      }
     }
 
     /* Flip Animation */
@@ -83,16 +108,40 @@
     }
 
     @keyframes flip {
-      0%   { transform: translateY(0); }
-      14.28%  { transform: translateY(-40px); }
-      28.56%  { transform: translateY(-80px); }
-      42.84%  { transform: translateY(-120px); }
-      57.12%  { transform: translateY(-160px); }
-      71.4%   { transform: translateY(-200px); }
-      85.68%  { transform: translateY(-240px); }
-      100%    { transform: translateY(0); }
+      0% {
+        transform: translateY(0);
+      }
+
+      14.28% {
+        transform: translateY(-40px);
+      }
+
+      28.56% {
+        transform: translateY(-80px);
+      }
+
+      42.84% {
+        transform: translateY(-120px);
+      }
+
+      57.12% {
+        transform: translateY(-160px);
+      }
+
+      71.4% {
+        transform: translateY(-200px);
+      }
+
+      85.68% {
+        transform: translateY(-240px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
     }
-        .letter-image {
+
+    .letter-image {
       position: relative;
       margin: 40px auto 0;
       width: 200px;
@@ -165,13 +214,11 @@
 
     .animated-mail .letter-border {
       height: 10px;
-      background: repeating-linear-gradient(
-        -45deg,
-        #cb5a5e,
-        #cb5a5e 8px,
-        transparent 8px,
-        transparent 18px
-      );
+      background: repeating-linear-gradient(-45deg,
+          #cb5a5e,
+          #cb5a5e 8px,
+          transparent 8px,
+          transparent 18px);
     }
 
     .animated-mail .letter-title {
@@ -209,7 +256,7 @@
       transition: .4s;
       transform: translateX(-50%);
       border-radius: 100%;
-      background: radial-gradient(rgba(0,0,0,0.5), transparent, transparent);
+      background: radial-gradient(rgba(0, 0, 0, 0.5), transparent, transparent);
     }
 
     /* Hover animation */
@@ -229,185 +276,232 @@
     .letter-image:hover .shadow {
       width: 250px;
     }
+
     .cursive-label {
       font-family: 'Brush Script MT', cursive;
       font-size: 36px;
       color: #fff;
       margin-bottom: 10px;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
     }
+
     .w3-uva-orange {
       background-color: #E57200 !important;
       color: white;
     }
 
+    .circle-button {
+      margin-top: -70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: #5c6bc0;
+      color: white;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s ease, transform 0.3s ease;
+      line-height: 1.2;
+      padding: 12px;
+    }
 
+    .circle-button:hover {
+      background-color: #3f51b5;
+      transform: scale(1.05);
+    }
 
+    .w3-uva-navy {
+      background-color: #232D4B !important;
+      color: white !important;
+    }
   </style>
 </head>
+
 <body>
 
-<!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red"
-       href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu">
-      <i class="fa fa-bars"></i>
-    </a>
-    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-    <a href="/dynamic_calendar" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personal Calendar</a>
-    <a href="/analytics" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Job Analytics</a>
-    <a href="https://career.virginia.edu/sites/g/files/jsddwu971/files/2022-10/How%20to%20Find%20a%20Job%20On-Grounds_0.pdf"
-   target="_blank"
-   class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">
-   On-Grounds Jobs with UVA Career Center (PDF)
-</a>
+  <!-- Navbar -->
+  <div class="w3-top">
+    <div class="w3-bar w3-uva-navy w3-card w3-left-align w3-large">
+      <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red"
+        href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu">
+        <i class="fa fa-bars"></i>
+      </a>
+      <a href="/" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+      <a href="/dynamic_calendar" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personal
+        Calendar</a>
+      <a href="/analytics" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Job Analytics</a>
+      <a href="https://career.virginia.edu/sites/g/files/jsddwu971/files/2022-10/How%20to%20Find%20a%20Job%20On-Grounds_0.pdf"
+        target="_blank" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">
+        On-Grounds Jobs with UVA Career Center (PDF)
+      </a>
 
-    <a href="https://hr.virginia.edu/compliance/student-i-9-documentation" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">I-9 On-Boarding (For International Students)</a>
+      <a href="https://hr.virginia.edu/compliance/student-i-9-documentation"
+        class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">I-9 On-Boarding (For International
+        Students)</a>
+    </div>
   </div>
-</div>
 
-<!-- Header -->
-<header class="w3-container w3-orange w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo block-effect" style="--td: 1.2s">
-    <div class="block-reveal" style="--bc: #4040bf; --d: .1s; font-family: Brush Script MT; font-size: 95px;">
-      Hoo Wants A Job?
-    </div>
-    <div class="block-reveal" style="--bc: #bf4060; --d: .5s; font-size: 40px">
-      <strong>An AI Powered</strong> One Stop Hub
-    </div>
-    <div class="block-reveal" style="--bc: #d5d535; --d: .8s; font-size: 40px">
-      for UVA <strong>student job opportunities</strong>
-    </div>
-  </h1>
-  <p class="w3-xlarge">Ever felt caught up searching for jobs on-grounds?</p>
-  <p class="w3-xlarge">Don't Worry! Cav Hires has you covered!</p>
-  <h2 class="cursive-label">View Student Opportunities Map⬇️🎁</h2>
-  <div class="letter-image" onclick="window.location.href='/opportunities_map'">
-  <div class="animated-mail">
-    <div class="back-fold"></div>
-    <div class="letter">
-      <div class="letter-border"></div>
-      <div class="letter-title"></div>
-      <div class="letter-context"></div>
-      <div class="letter-stamp">
-        <div class="letter-stamp-inner"></div>
+  <!-- Header -->
+  <header class="w3-container w3-orange w3-center" style="padding:128px 16px">
+    <h1 class="w3-margin w3-jumbo block-effect" style="--td: 1.2s">
+      <a href="https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/scl/fi/z3efchboz6bhtpz7to7qq/keplergl_n9164q7.json?rlkey=navrg0qsooxt9fjmnfm48fo6r&dl=0"
+        class="circle-button">Beta<br>Testing<br>Map</a>
+      <div class="block-reveal"
+        style="--bc: #4040bf; --d: .1s; font-family: 'Kaushan Script', cursive; font-size: 120px;">
+
+        Hoo Wants A Job?
+      </div>
+      <div class="block-reveal" style="--bc: #bf4060; --d: .5s; font-size: 40px">
+        <strong>An AI Powered</strong> One Stop Hub
+      </div>
+      <div class="block-reveal" style="--bc: #d5d535; --d: .8s; font-size: 40px">
+        for UVA <strong>student job opportunities</strong>
+      </div>
+    </h1>
+    <p class="w3-xlarge">Ever felt caught up searching for jobs on-grounds?</p>
+    <p class="w3-xlarge">Don't Worry! Cav Hires has you covered!</p>
+    <h2 class="cursive-label">View Student Opportunities Map⬇️🔍
+      <div class="letter-image" onclick="window.location.href='/opportunities_map'">
+        <div class="animated-mail">
+          <div class="back-fold"></div>
+          <div class="letter">
+            <div class="letter-border"></div>
+            <div class="letter-title"></div>
+            <div class="letter-context"></div>
+            <div class="letter-stamp">
+              <div class="letter-stamp-inner"></div>
+            </div>
+          </div>
+          <div class="top-fold"></div>
+          <div class="body"></div>
+          <div class="left-fold"></div>
+        </div>
+        <div class="shadow"></div>
+      </div>
+
+  </header>
+
+  <!-- First Grid -->
+  <div class="w3-row-padding w3-padding-64 w3-container">
+    <div class="w3-content">
+      <div class="w3-twothird">
+        <h1>
+          Finding your next on-grounds employment
+          <span class="flip-words">
+            <span>
+              <div>effortlessly</div>
+              <div>visually</div>
+              <div>locally</div>
+              <div>creatively</div>
+              <div>strategically</div>
+              <div>confidently</div>
+              <div>passionately</div>
+            </span>
+          </span>
+        </h1>
+        <h5 class="w3-padding-32">
+          Desperate for a side income? Trying to gain experience outside from classrooms? Don't have a Social Security
+          Number as an International Student? <strong> Congratulations </strong>, you are at the right place, right
+          time.
+        </h5>
+        <p class="w3-text-grey">
+          Explore all facets of this website — a comprehensive opportunities map, a personal planner, and
+          job-enhancement tools all designed to help you land your next <i>dream job</i>.
+          CavHires is committed to open-sourcing on-campus opportunities and eliminating the hassle of job searching.
+        </p>
+      </div>
+
+      <div class="w3-third w3-center">
+        <img src="/static/Cavman.jpg" alt="Anchor Image" style="width: 600px; height: auto; padding: 64px;" />
       </div>
     </div>
-    <div class="top-fold"></div>
-    <div class="body"></div>
-    <div class="left-fold"></div>
   </div>
-  <div class="shadow"></div>
-</div>
 
-</header>
-
-<!-- First Grid -->
-<div class="w3-row-padding w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-twothird">
-      <h1>
-        Finding your next on-grounds employment
-        <span class="flip-words">
-          <span>
-            <div>effortlessly</div>
-            <div>visually</div>
-            <div>locally</div>
-            <div>creatively</div>
-            <div>strategically</div>
-            <div>confidently</div>
-            <div>passionately</div>
-          </span>
-        </span>
-      </h1>
-      <h5 class="w3-padding-32">
-        Desperate for a side income? Trying to gain experience outside from classrooms? Don't have a Social Security Number as an International Student? <strong> Congratulations </strong>, you are at the right place, right time.
-      </h5>
-      <p class="w3-text-grey">
-        Explore all facets of this website — a comprehensive opportunities map, a personal planner, and job-enhancement tools all designed to help you land your next <i>dream job</i>.
-        CavHires is committed to open-sourcing on-campus opportunities and eliminating the hassle of job searching.
-      </p>
-    </div>
-
-    <div class="w3-third w3-center">
-      <img src="/static/Cavman.jpg" alt="Anchor Image" style="width: 600px; height: auto; padding: 64px;"/>
-    </div>
-  </div>
-</div>
-
-<!-- FAQ Grid -->
-<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-third w3-center">
-        <div class="w3-third" style="display: flex; justify-content: center;align-items: flex-start; padding-top: 200px;">
-            <img src="/static/confused.gif" alt="Animated GIF" style="width: 400px; height: 350px;" />
+  <!-- FAQ Grid -->
+  <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+    <div class="w3-content">
+      <div class="w3-third w3-center">
+        <div class="w3-third"
+          style="display: flex; justify-content: center;align-items: flex-start; padding-top: 200px;">
+          <img src="/static/confused.gif" alt="Animated GIF" style="width: 400px; height: 300px;" />
         </div>
 
-    </div>
-    <div class="w3-twothird">
-      <h1>Frequently Asked Questions</h1>
+      </div>
+      <div class="w3-twothird">
+        <h1>Frequently Asked Questions</h1>
 
-      <h5 class="w3-padding-16"><b>What is this website for?</b></h5>
-      <p class="w3-text-grey">
-        This site helps UVA students explore on-campus job opportunities using an interactive map that decentralizes hidden opportunities. It’s fast, visual, and requires no login.
-      </p>
+        <h5 class="w3-padding-16"><b>What is this website for?</b></h5>
+        <p class="w3-text-grey">
+          This site helps UVA students explore on-campus job opportunities using an interactive map that decentralizes
+          hidden opportunities. It’s fast, visual, and requires no login.
+        </p>
 
-      <h5 class="w3-padding-16"><b>How do I find jobs near specific locations?</b></h5>
-      <p class="w3-text-grey">
-        Head to the map view, hover or click on a location pin to see jobs at that building. Job listings are grouped by on-campus addresses.
-      </p>
+        <h5 class="w3-padding-16"><b>How do I find jobs near specific locations?</b></h5>
+        <p class="w3-text-grey">
+          Head to the map view, hover or click on a location pin to see jobs at that building. Job listings are grouped
+          by on-campus addresses.
+        </p>
 
-      <h5 class="w3-padding-16"><b>Can I save job reminders?</b></h5>
-      <p class="w3-text-grey">
-        Yes! You can add custom reminders for job applications or interviews directly into your personal calendar. Everything is stored locally on your browser.
-      </p>
+        <h5 class="w3-padding-16"><b>Can I save job reminders?</b></h5>
+        <p class="w3-text-grey">
+          Yes! You can add custom reminders for job applications or interviews directly into your personal calendar.
+          Everything is stored locally on your browser.
+        </p>
 
-      <h5 class="w3-padding-16"><b>Do I need to log in?</b></h5>
-      <p class="w3-text-grey">
-        No account or login required. Reminders and calendar events are stored safely on your device using local storage.
-      </p>
+        <h5 class="w3-padding-16"><b>Do I need to log in?</b></h5>
+        <p class="w3-text-grey">
+          No account or login required. Reminders and calendar events are stored safely on your device using local
+          storage.
+        </p>
 
-      <h5 class="w3-padding-16"><b>What can the chatbot do?</b></h5>
-      <p class="w3-text-grey">
-        The chatbot helps you navigate the platform, answer job-related questions, explain filters, and assist with how to use each feature.
-      </p>
+        <h5 class="w3-padding-16"><b>What can the chatbot do?</b></h5>
+        <p class="w3-text-grey">
+          The chatbot helps you navigate the platform, answer job-related questions, explain filters, and assist with
+          how to use each feature.
+        </p>
 
-      <h5 class="w3-padding-16"><b>Who can I contact for support?</b></h5>
-      <p class="w3-text-grey">
-        This is an open source project. You can find the contributors and their contact info on GitHub at <a href="https://github.com/JuneWayne/CavHire" target="_blank">CavHire repo</a>.
-      </p>
+        <h5 class="w3-padding-16"><b>Who can I contact for support?</b></h5>
+        <p class="w3-text-grey">
+          This is an open source project. You can find the contributors and their contact info on GitHub at <a
+            href="https://github.com/JuneWayne/CavHire" target="_blank">CavHire repo</a>.
+        </p>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Quote -->
-<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-  <h1 class="w3-margin w3-xlarge">The secret of getting ahead is getting started</h1>
-</div>
-
-<!-- Footer -->
-<footer class="w3-container w3-padding-64 w3-center w3-opacity">
-  <div class="w3-xlarge w3-padding-32">
-    <i class="fa fa-facebook-official w3-hover-opacity"></i>
-    <i class="fa fa-instagram w3-hover-opacity"></i>
-    <i class="fa fa-snapchat w3-hover-opacity"></i>
-    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-    <i class="fa fa-twitter w3-hover-opacity"></i>
-    <i class="fa fa-linkedin w3-hover-opacity"></i>
+  <!-- Quote -->
+  <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+    <h1 class="w3-margin w3-xlarge">The secret of getting ahead is getting started</h1>
   </div>
-  <p>Powered by the dedication, love, and unlimited passion by members of the BSDS Squad #27</p>
-</footer>
 
-<script>
-  function myFunction() {
-    var x = document.getElementById("navDemo");
-    if (x.className.indexOf("w3-show") == -1) {
-      x.className += " w3-show";
-    } else {
-      x.className = x.className.replace(" w3-show", "");
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-64 w3-center w3-opacity">
+    <div class="w3-xlarge w3-padding-32">
+      <i class="fa fa-facebook-official w3-hover-opacity"></i>
+      <i class="fa fa-instagram w3-hover-opacity"></i>
+      <i class="fa fa-snapchat w3-hover-opacity"></i>
+      <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+      <i class="fa fa-twitter w3-hover-opacity"></i>
+      <i class="fa fa-linkedin w3-hover-opacity"></i>
+    </div>
+    <p>Powered by the dedication, love, and unlimited passion by members of the BSDS Squad #27</p>
+  </footer>
+
+  <script>
+    function myFunction() {
+      var x = document.getElementById("navDemo");
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else {
+        x.className = x.className.replace(" w3-show", "");
+      }
     }
-  }
-</script>
+  </script>
 </body>
+
 </html>
