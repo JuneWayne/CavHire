@@ -1,0 +1,34 @@
+[
+  {
+    "type": "Assistant",
+    "count": 55
+  },
+  {
+    "type": "Support",
+    "count": 2
+  },
+  {
+    "type": "Instructor",
+    "count": 7
+  },
+  {
+    "type": "Analyst",
+    "count": 1
+  },
+  {
+    "type": "Intern",
+    "count": 10
+  },
+  {
+    "type": "Fellow",
+    "count": 3
+  },
+  {
+    "type": "Coordinator",
+    "count": 2
+  },
+  {
+    "type": "Manager",
+    "count": 1
+  }
+]

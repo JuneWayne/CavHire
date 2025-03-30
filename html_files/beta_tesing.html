@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UVA Job Map – Interactive</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <style>
+        /* General styling */
+        html, body { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; }
+        .container { display: flex; height: 100%; flex-wrap: nowrap; }
+        #map { flex: 1; height: 100%; }
+        #chat-iframe { width: 360px; height: 100%; border: none; border-radius: 28px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); overflow: hidden; margin: 0; }
+
+        /* Filter styles */
+        #filters { position: absolute; top: 90px; left: 10px; z-index: 9999; background: #232D4B; color: white; padding: 12px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        #filters select { margin-bottom: 8px; padding: 6px; display: block; width: 100%; border-radius: 4px; border: none; }
+
+        /* Popup styling */
+        .leaflet-popup-content { text-align: center; font-size: 16px; padding: 10px; }
+        .view-jobs-button { background-color: #5c6bc0; color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: background 0.2s ease, transform 0.2s ease; }
+        .view-jobs-button:hover { background-color: #3f51b5; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <button id="back-button" onclick="window.location.href='/'">← Back to Home</button>
+    <button id="map-button" onclick="window.location.href='/dynamic_calendar'">📅 Open Calendar</button>
+
+    <!-- Filter panel -->
+    <div id="filters">
+        <label for="time-filter">Time Posted</label>
+        <select id="time-filter" onchange="applyFilters()">  
+            <option value="all">All Time</option>
+            <option value="3">Past 3 Days</option>
+            <option value="7">Past Week</option>
+            <option value="14">Past 2 Weeks</option>
+            <option value="30">Past Month</option>
+            <option value="365">Past Year</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <!-- Map container -->
+        <div id="map"></div>
+        <!-- Chat iframe -->
+        <iframe id="chat-iframe" src="https://junewayne-cavhire-chatbotcopilot-fyegt0.streamlit.app/?embed=true"></iframe>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([38.0356, -78.5034], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        let jobData = {};
+        let locationMeta = {};
+        let markers = [];
+
+        fetch('/static/jobData_6.json')
+            .then(res => res.json())
+            .then(data => { jobData = data; });
+
+        fetch('/static/job_location_summary.json')
+            .then(res => res.json())
+            .then(summary => {
+                summary.forEach(entry => {
+                    locationMeta[entry.location] = {
+                        wageLevel: entry.wageLevel,
+                        jobCount: entry.jobCount
+                    };
+                });
+                return fetch('/static/locations.json');
+            })
+            .then(res => res.json())
+            .then(locations => {
+                let index = 0;
+                Object.entries(locations).forEach(([name, coords]) => {
+                    const meta = locationMeta[name] || {};
+                    const jobCount = meta.jobCount || 0;
+                    const baseLevel = meta.wageLevel || "unknown";
+                    const variation = (index % 2 === 0) ? "a" : "b";
+                    const className = (baseLevel === "unknown") ? "marker-unknown" : `marker-${baseLevel}-${variation}`;
+                    index++;
+
+                    // Create custom icons
+                    const icon = L.divIcon({
+                        className: '',
+                        html: `<div class="custom-marker ${className}" title="${name}: ${jobCount} job${jobCount !== 1 ? 's' : ''}">${jobCount}</div>`,
+                        iconSize: [34, 34],
+                        iconAnchor: [17, 34]
+                    });
+
+                    const marker = L.marker([coords.lat, coords.lng], { icon });
+                    marker.bindPopup(`
+                        <div class="popup-content">
+                            <b>${name}</b><br>
+                            <button class="view-jobs-button" onclick="showJobs('${name}')">View Jobs</button>
+                        </div>
+                    `);
+
+                    marker._locationName = name;
+                    marker.addTo(map);
+                    markers.push(marker);
+                });
+            });
+
+        // Apply filters dynamically
+        function applyFilters() {
+            const days = document.getElementById("time-filter").value;
+            const now = new Date();
+
+            markers.forEach(marker => {
+                const loc = marker._locationName;
+                const jobs = jobData[loc] || [];
+
+                const filtered = jobs.filter(job => {
+                    let valid = true;
+                    if (days !== "all") {
+                        const posted = new Date(job.timePosted);
+                        const diff = (now - posted) / (1000 * 60 * 60 * 24);
+                        if (diff > parseInt(days)) valid = false;
+                    }
+                    return valid;
+                });
+
+                if (filtered.length > 0) {
+                    marker.addTo(map);
+                } else {
+                    map.removeLayer(marker);
+                }
+            });
+        }
+
+        // Show jobs for selected location
+        function showJobs(location) {
+            const allJobs = jobData[location] || [];
+            const jobList = document.getElementById('job-list');
+            jobList.innerHTML = '';
+
+            allJobs.forEach(job => {
+                const jobDiv = document.createElement('div');
+                jobDiv.className = 'job-item';
+                jobDiv.innerHTML = `
+                    <strong>${job.title}</strong>
+                    <button onclick="toggleDetails('${job.title}')">Details</button>
+                    <div class="job-details" id="details-${job.title}">
+                        <p><strong>Description:</strong> ${job.description}</p>
+                        <p><strong>Wage:</strong> ${job.wage}</p>
+                    </div>
+                `;
+                jobList.appendChild(jobDiv);
+            });
+        }
+
+        // Toggle job details visibility
+        function toggleDetails(jobTitle) {
+            const detailEl = document.getElementById(`details-${jobTitle}`);
+            detailEl.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
+
+

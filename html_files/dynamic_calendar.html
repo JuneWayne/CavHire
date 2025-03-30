@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dynamic Job Calendar</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #E57200;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .container-calendar {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    #left {
+      flex: 1;
+      min-width: 300px;
+      margin-right: 20px;
+    }
+
+    #right {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    h1, h3 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"], input[type="date"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 8px 14px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button.delete-event {
+      background-color: #e74c3c;
+      margin-left: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      text-align: center;
+      padding: 12px;
+      border: 1px solid #eee;
+      position: relative;
+      color: black;
+    }
+
+    .date-picker {
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }
+
+    .date-picker:hover {
+      background-color: #27ae60;
+      color: white;
+    }
+
+    .date-picker.selected {
+      font-weight: bold;
+      background-color: #ecf0f1;
+      outline: 2px dashed #27ae60;
+    }
+
+    .event-marker::after {
+      content: '';
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      width: 8px;
+      height: 8px;
+      background: #e74c3c;
+      border-radius: 50%;
+    }
+
+    .event-tooltip {
+      display: none;
+      position: absolute;
+      bottom: 35px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: black;
+      font-size: 13px;
+      border-radius: 4px;
+      padding: 10px;
+      width: 200px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+
+    .event-marker:hover .event-tooltip {
+      display: block;
+    }
+
+    #reminderList {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    #reminderList li {
+      background: #232D4B;
+      margin: 6px 0;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 14px;
+      color: white;
+    }
+
+    .button-container-calendar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .footer-container-calendar {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .footer-container-calendar select {
+      padding: 6px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .w3-uva-orange {
+      background-color: #E57200 !important;
+      color: white;
+    }
+  </style>
+</head>
+<div class="w3-container w3-uva-orange w3-center w3-padding-64">
+<div style="text-align: center; margin-top: 40px;">
+  <button onclick="window.location.href='/'" style="background-color:#2c3e50;">← Home</button>
+  <button onclick="window.location.href='/opportunities_map'" style="background-color:#2980b9;">Back to Map</button>
+</div>
+<body>
+  <div class="wrapper">
+    <div class="container-calendar">
+      <div id="left">
+        <h1>📅 Your Personal Calendar</h1>
+        <h3>Add Reminder For Job Application</h3>
+        <input type="date" id="eventDate" />
+        <input type="text" id="eventTitle" placeholder="Event Title" />
+        <input type="text" id="eventDescription" placeholder="Event Description" />
+        <button onclick="addEvent()">Add</button>
+
+        <h3 style="margin-top:30px;">📝 Reminders</h3>
+        <ul id="reminderList"></ul>
+      </div>
+
+      <div id="right">
+        <h3 id="monthAndYear"></h3>
+        <div class="button-container-calendar">
+          <button onclick="previous()">‹ Prev</button>
+          <button onclick="next()">Next ›</button>
+        </div>
+        <table id="calendar">
+          <thead id="thead-month"></thead>
+          <tbody id="calendar-body"></tbody>
+        </table>
+        <div class="footer-container-calendar">
+          <select id="month" onchange="jump()"></select>
+          <select id="year" onchange="jump()"></select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let events = JSON.parse(localStorage.getItem("calendarEvents") || "[]");
+    let currentMonth, currentYear;
+    const today = new Date();
+    const reminderList = document.getElementById("reminderList");
+
+    document.addEventListener("DOMContentLoaded", () => {
+      currentMonth = today.getMonth();
+      currentYear = today.getFullYear();
+      populateMonthYear();
+      setupCalendar();
+    });
+
+    function populateMonthYear() {
+      const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      const monthSel = document.getElementById("month");
+      const yearSel = document.getElementById("year");
+      months.forEach((m, i) => {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = m;
+        monthSel.appendChild(option);
+      });
+      for (let y = 2000; y <= 2050; y++) {
+        const option = document.createElement("option");
+        option.value = y;
+        option.textContent = y;
+        yearSel.appendChild(option);
+      }
+    }
+
+    function addEvent() {
+      const date = document.getElementById("eventDate").value;
+      const title = document.getElementById("eventTitle").value;
+      const description = document.getElementById("eventDescription").value;
+      if (date && title) {
+        events.push({ id: Date.now(), date, title, description });
+        localStorage.setItem("calendarEvents", JSON.stringify(events));
+        clearInputs();
+        setupCalendar();
+        updateReminders();
+      }
+    }
+
+    function clearInputs() {
+      document.getElementById("eventDate").value = '';
+      document.getElementById("eventTitle").value = '';
+      document.getElementById("eventDescription").value = '';
+    }
+
+    function deleteEvent(id) {
+      events = events.filter(e => e.id !== id);
+      localStorage.setItem("calendarEvents", JSON.stringify(events));
+      setupCalendar();
+      updateReminders();
+    }
+
+    function updateReminders() {
+      reminderList.innerHTML = '';
+      events.forEach(event => {
+        const date = new Date(event.date);
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${event.title}</strong> - ${event.description} (${date.toLocaleDateString()})
+        <button class="delete-event" onclick="deleteEvent(${event.id})">Delete</button>`;
+        reminderList.appendChild(li);
+      });
+    }
+
+    function setupCalendar() {
+      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const tbl = document.getElementById("calendar-body");
+      const thead = document.getElementById("thead-month");
+      const monthAndYear = document.getElementById("monthAndYear");
+      const yearSel = document.getElementById("year");
+      const monthSel = document.getElementById("month");
+
+      thead.innerHTML = "<tr>" + days.map(d => `<th>${d}</th>`).join('') + "</tr>";
+      monthAndYear.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+      yearSel.value = currentYear;
+      monthSel.value = currentMonth;
+
+      let firstDay = new Date(currentYear, currentMonth).getDay();
+      tbl.innerHTML = "";
+      let date = 1;
+      for (let i = 0; i < 6; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < 7; j++) {
+          if (i === 0 && j < firstDay) {
+            row.appendChild(document.createElement("td"));
+          } else if (date > daysInMonth(currentMonth, currentYear)) {
+            break;
+          } else {
+            const cell = document.createElement("td");
+            const thisDate = new Date(currentYear, currentMonth, date);
+            cell.className = "date-picker";
+            cell.innerHTML = `<span>${date}</span>`;
+            if (isToday(thisDate)) cell.classList.add("selected");
+
+            const eventOnDate = events.filter(e => new Date(e.date).toDateString() === thisDate.toDateString());
+            if (eventOnDate.length > 0) {
+              cell.classList.add("event-marker");
+              const tooltip = document.createElement("div");
+              tooltip.className = "event-tooltip";
+              tooltip.innerHTML = eventOnDate.map(e => `<p><strong>${e.title}</strong>: ${e.description}</p>`).join("");
+              cell.appendChild(tooltip);
+            }
+
+            row.appendChild(cell);
+            date++;
+          }
+        }
+        tbl.appendChild(row);
+      }
+      updateReminders();
+    }
+
+    function daysInMonth(month, year) {
+      return 32 - new Date(year, month, 32).getDate();
+    }
+
+    function isToday(date) {
+      return date.toDateString() === new Date().toDateString();
+    }
+
+    function previous() {
+      currentMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+      currentYear = currentMonth === 11 ? currentYear - 1 : currentYear;
+      setupCalendar();
+    }
+
+    function next() {
+      currentMonth = currentMonth === 11 ? 0 : currentMonth + 1;
+      currentYear = currentMonth === 0 ? currentYear + 1 : currentYear;
+      setupCalendar();
+    }
+
+    function jump() {
+      currentYear = parseInt(document.getElementById("year").value);
+      currentMonth = parseInt(document.getElementById("month").value);
+      setupCalendar();
+    }
+  </script>
+</body>
+</html>
