@@ -5,18 +5,14 @@ import time
 from dotenv import load_dotenv
 import os
 
-# Load API key from .env
 load_dotenv('../.env')
 api_key = os.getenv("OPENAI_API_KEY")
 
-# Use new client interface
 client = openai.OpenAI(api_key=api_key)
 
-# Load job data
 df = pd.read_csv("../datacollection/uvajobsdata.csv")
 structured_data = {}
 
-# Function to extract structured job info
 def extract_job_info(location, title, desc):
     prompt = f"""
     Extract the following from this job posting:
@@ -46,10 +42,9 @@ def extract_job_info(location, title, desc):
         content = response.choices[0].message.content
         return json.loads(content)
     except Exception as e:
-        print(f"❌ Error processing {title} at {location}: {e}")
+        print(f"Error processing {title} at {location}: {e}")
         return None
 
-# Process each row
 for _, row in df.iterrows():
     location = row["addressLocality"]
     title = row["title"]
@@ -61,9 +56,8 @@ for _, row in df.iterrows():
     if info:
         structured_data.setdefault(location, []).append(info)
     
-    time.sleep(1)  # Respect rate limits
+    time.sleep(1) 
 
-# Save to JSON
 with open("jobData.json", "w") as f:
     json.dump(structured_data, f, indent=2)
 

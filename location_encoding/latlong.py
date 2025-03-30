@@ -3,11 +3,9 @@ import requests
 import time
 import json
 
-# Input CSV file with column: "location"
 csv_file = "../datacollection/uvajobsdata.csv"
 output_json = "locations.json"
 
-# Use Nominatim API for free geocoding (OpenStreetMap)
 def geocode(location_name):
     url = "https://nominatim.openstreetmap.org/search"
     params = {
@@ -21,10 +19,8 @@ def geocode(location_name):
         return float(data[0]["lat"]), float(data[0]["lon"])
     return None, None
 
-# Load CSV
 df = pd.read_csv(csv_file)
 
-# Create JSON structure
 output = {}
 
 for _, row in df.iterrows():
@@ -37,11 +33,10 @@ for _, row in df.iterrows():
             "lng": lon
         }
     else:
-        print(f"⚠️ Could not geocode: {loc_name}")
-    time.sleep(1)  # To avoid being blocked by the API
+        print(f" Could not geocode: {loc_name}")
+    time.sleep(1)  
 
-# Save to JSON
 with open(output_json, "w") as f:
     json.dump(output, f, indent=2)
 
-print("✅ Saved to locations.json")
+print("Saved to locations.json")
