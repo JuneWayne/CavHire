@@ -51,7 +51,7 @@ vectorstore = PineconeStore.from_existing_index(
 # -----------------------------
 # Create Conversational Chat Model using OpenAI
 # -----------------------------
-chat_model = ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo", verbose=True)
+chat_model = ChatOpenAI(temperature=0.7, model_name="gpt-4o", verbose=True)
 
 # -----------------------------
 # Conversational Chain Components
@@ -121,6 +121,7 @@ def main():
     st.subheader("Chat with Layla about job opportunities on the UVA Student Jobs website!")
     
     if "chat_history" not in st.session_state:
+
         st.session_state.chat_history = [
             {"role": "assistant", "content": "Hello! What opportunities are you looking for today?"}
         ]
