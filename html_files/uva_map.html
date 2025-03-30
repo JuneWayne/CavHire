@@ -11,25 +11,29 @@
       margin: 0;
       padding: 0;
       height: 100%;
+      font-family: 'Segoe UI', sans-serif;
     }
 
     .container {
       display: flex;
       flex-direction: row;
       height: 100%;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
     }
 
     #map {
       flex: 1;
-      min-width: 300px;
       height: 100%;
     }
 
     #chat-iframe {
-      width: 400px;
+      width: 360px;
       height: 100%;
       border: none;
+      border-radius: 28px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      margin: 0;
     }
 
     @media (max-width: 768px) {
@@ -45,6 +49,8 @@
       #chat-iframe {
         width: 100%;
         height: 30%;
+        margin: 0 auto;
+        border-radius: 0;
       }
 
       #job-panel {
@@ -56,41 +62,47 @@
       }
     }
 
-    #back-button {
+    #back-button, #map-button {
       margin: 10px;
       padding: 10px 20px;
       position: absolute;
-      top: 10px;
-      left: 60px;
       z-index: 9999;
+      border: none;
+      background-color: #5c6bc0;
+      color: white;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
     }
 
-    #map-button {
-        margin: 10px;
-        padding: 10px 20px;
-        position: absolute;
-        top: 10px;
-        left: 880px;
-        z-index: 9999;
+    #back-button:hover, #map-button:hover {
+      background-color: #3f51b5;
+      transform: scale(1.05);
     }
+
+    #back-button { top: 10px; left: 60px; }
+    #map-button { top: 10px; left: 880px; }
 
     #filters {
       position: absolute;
       top: 90px;
       left: 10px;
       z-index: 9999;
-      background: white;
-      padding: 10px;
-      border-radius: 6px;
+      background: #232D4B;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      font-family: sans-serif;
     }
 
     #filters select {
-      margin-bottom: 6px;
-      padding: 4px;
+      margin-bottom: 8px;
+      padding: 6px;
       display: block;
       width: 100%;
+      border-radius: 4px;
+      border: none;
     }
 
     #job-panel {
@@ -99,14 +111,21 @@
       top: 80px;
       left: 20px;
       background: white;
+      border-radius: 12px;
       border: 1px solid #ccc;
       padding: 20px;
       z-index: 10000;
       max-width: 400px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      font-family: sans-serif;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
       overflow-y: auto;
       max-height: 80vh;
+      transition: all 0.3s ease-in-out;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .job-item {
@@ -117,15 +136,35 @@
     .job-details {
       margin-top: 5px;
       color: #555;
-      display: none;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.4s ease;
+      opacity: 0;
     }
 
-    .job-item button {
-      margin-left: 10px;
-      padding: 3px 8px;
+    .job-details.open {
+      max-height: 500px;
+      opacity: 1;
     }
 
-    /* Circle Marker Styling */
+    .job-item button,
+    #job-panel button {
+      padding: 6px 14px;
+      font-size: 14px;
+      border: none;
+      background-color: #5c6bc0;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .job-item button:hover,
+    #job-panel button:hover {
+      background-color: #3f51b5;
+      transform: scale(1.05);
+    }
+
     .custom-marker {
       width: 34px;
       height: 34px;
@@ -140,11 +179,31 @@
     }
 
     .custom-marker:hover {
-      transform: translateY(-6px) scale(1.1);
+      transform: translateY(-15px) scale(1.3);
       cursor: pointer;
     }
 
-    /* Wage color variations */
+    .leaflet-popup-content {
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.5;
+      min-width: 240px;
+      max-width: 300px;
+      padding: 10px;
+    }
+    
+    .leaflet-popup-content b {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #2C3E50; 
+    }
+
+
+    .leaflet-popup-content-wrapper {
+      padding: 12px;
+    }
+
     .marker-low-a    { background: #4A90E2; }
     .marker-low-b    { background: #2C82C9; }
     .marker-med-a    { background: #F39C12; }
@@ -152,13 +211,31 @@
     .marker-high-a   { background: #27AE60; }
     .marker-high-b   { background: #1E8449; }
     .marker-unknown  { background: #7f8c8d; }
+    
+    .view-jobs-button {
+      background-color: #5c6bc0;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    
+    .view-jobs-button:hover {
+      background-color: #3f51b5;
+      transform: scale(1.05);
+    }
+
   </style>
 </head>
 <body>
+<!-- body remains unchanged -->
 
   <button id="back-button" onclick="window.location.href='/'">← Back to Home</button>
   <button id="map-button" onclick="window.location.href='/dynamic_calendar'" >📅 Open Calendar</button>
-
 
   <div id="filters">
     <label for="time-filter">Time Posted</label>
@@ -192,7 +269,7 @@
   <div id="job-panel">
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <h3 id="location-title" style="margin: 0;">Jobs at Location</h3>
-      <button onclick="closeJobPanel()" style="margin-left: 10px;">✕</button>
+      <button onclick="closeJobPanel()">✕</button>
     </div>
     <hr />
     <div id="job-list"></div>
@@ -209,12 +286,10 @@
     let locationMeta = {};
     let markers = [];
 
-    // Fetch job data first
     fetch('/static/jobData_6.json')
       .then(res => res.json())
       .then(data => { jobData = data; });
 
-    // Chain summary + locations fetch to ensure proper loading order
     fetch('/static/job_location_summary.json')
       .then(res => res.json())
       .then(summary => {
@@ -224,8 +299,6 @@
             jobCount: entry.jobCount
           };
         });
-
-        // Now safely fetch and render locations
         return fetch('/static/locations.json');
       })
       .then(res => res.json())
@@ -247,7 +320,13 @@
           });
 
           const marker = L.marker([coords.lat, coords.lng], { icon });
-          marker.bindPopup(`<b>${name}</b><br><button onclick="showJobs('${name}')">View Jobs</button>`);
+          marker.bindPopup(`
+              <div class="popup-content">
+                <b>${name}</b><br>
+                <button class="view-jobs-button" onclick="showJobs('${name}')">View Jobs</button>
+              </div>
+            `);
+
           marker._locationName = name;
           marker.addTo(map);
           markers.push(marker);
@@ -326,7 +405,7 @@
 
     function toggleDetails(index, location) {
       const detailEl = document.getElementById(`details-${location}-${index}`);
-      detailEl.style.display = detailEl.style.display === 'block' ? 'none' : 'block';
+      detailEl.classList.toggle('open');
     }
 
     function closeJobPanel() {
