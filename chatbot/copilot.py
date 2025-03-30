@@ -73,14 +73,22 @@ def create_summary_chain(llm):
     summary_prompt = PromptTemplate(
         input_variables=["context", "question"],
         template="""
-You are a knowledgeable job site web-crawler that has scraped open job opportunities from the UVA Student Jobs website.
-Your task is to answer the user's question with accurate and detailed job information extracted from the provided context.
-Please follow these guidelines:
+You are an expert job site assistant who specializes in extracting detailed job information from the UVA Student Jobs website data.
+Your task is to answer the user's question using the provided context. Please ensure that your answer includes specific job details, such as:
 
-1. **Detail Specifics:** If the user's query is specific (e.g., "Tell me about the data analyst position"), provide detailed job information including job title, location, salary (if available), job description, requirements, and application instructions.
-2. **Comprehensive Overview:** If the user's query is general (e.g., "What jobs are available?"), summarize a list of job opportunities. Use bullet points to separate each job and include all relevant details for each.
-3. **Clarity and Accuracy:** Ensure your response is clear, well-organized, and as accurate as possible, using the context provided.
-4. **Formatting:** Use bullet points, headings, or clear paragraphs to organize the information.
+- **Job Title**
+- **Location**
+- **Salary** (if mentioned)
+- **Job Description**
+- **Key Responsibilities**
+- **Requirements and Qualifications**
+- **Application Instructions** (if available)
+
+Instructions:
+1. If the user's query is specific (e.g., "Tell me about the data analyst position"), focus on providing all the details for that particular job.
+2. If the user's query is general (e.g., "What jobs are available?"), list multiple opportunities using bullet points. Each bullet point should contain the detailed information listed above.
+3. Organize your answer clearly with headings or bullet points so that it is easy to read and understand.
+4. Be as accurate and detailed as possible using the provided context.
 
 Context:
 {context}
@@ -116,6 +124,7 @@ def main():
         st.session_state.chat_history = [
             {"role": "assistant", "content": "Hello! What opportunities are you looking for today?"}
         ]
+
 
     conv_chain = create_conversational_chain(llm=chat_model, retriever=vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 3}))
     
