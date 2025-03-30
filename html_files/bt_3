@@ -1,0 +1,81 @@
+import pandas as pd
+
+# Define the location coordinates dictionary
+location_coordinates = {
+    "Memorial Gymnasium": (38.037983, -78.507123),
+    "Bond House": (38.029760, -78.504501),
+    "Peabody Hall": (38.033515, -78.506028),
+    "Bryan Hall": (38.033386, -78.505978),
+    "Booker House": (38.036727, -78.502056),
+    "2400 Old Ivy Road": (38.046865, -78.518858),
+    "Hotel D": (38.034722, -78.502526),
+    "Monroe Hall": (38.035040, -78.506495),
+    "Darden Faculty": (38.05244670351643, -78.51464356539029),
+    "Faulkner House": (38.04842674601317, -78.513369522778),
+    "Skipwith Hall": (38.03591730120376, -78.5167470288405),
+    "Newcomb Hall": (38.03605880471141, -78.50663285771955),
+    "Shumway Hall": (38.033114762753605, -78.5038843867863),
+    "North Grounds Recreation Center": (38.050915602619234, -78.51288803682313),
+    "Morven Farm Pigeon Coop Guest House": (37.96163967093222, -78.46699472884718),
+    "Michie South": (38.04893053684736, -78.50251899999984),
+    "Edgar Shannon Library": (38.03664250514728, -78.50538975772007),
+    "Aquatic & Fitness Center": (38.03296620645659, -78.51354717115362),
+    "College at Wise": (36.97061120945361, -82.56071894958089),
+    "8095 Innovation Park Drive": (38.86120603869135, -77.2240207865898),
+    "Gibbons House": (38.03323110829226, -78.51466834093432),
+    "Rotunda": (38.035653163432656, -78.50344730834999),
+    "Biocomplexity Center": (38.14968083445007, -78.43532047307984),
+    "Work Study Community Location": (None, None),
+    "South Lawn Nau Hall": (38.03188381242481, -78.50500554228395),
+    "Student Health And Wellness Center": (38.03018740378988, -78.50398158841628),
+    "Minor Hall": (38.03400450632561, -78.50654477310471),
+    "Harrison Institute And Small Special Collections Library": (38.036323207724045, -78.5058847732219),
+    "New Cabell Hall": (38.0327186150949, -78.50508585772748),
+    "Drama Education Building": (38.039680698485284, -78.50441622884941),
+    "Chemistry Building": (38.0335413057959, -78.5117314288472),
+    "Halsey Hall": (38.033058108929936, -78.50695291541695),
+    "John Paul Jones Arena": (38.0461893758004, -78.50686558871307),
+    "Astronomy Building": (38.035735954277655, -78.51521258655526),
+    "Wilson Hall": (38.03264121388223, -78.50404185771951),
+    "Town Center Four": (38.14966396013218, -78.43522391346559),
+    "Michie North": (38.0491745853359, -78.50229617114613),
+    "Parking & Transit": (38.052258313950645, -78.50389827113594),
+    "Old Cabell Hall": (38.03306231554701, -78.50479712680894),
+    "Dell Building #1": (38.034968053725656, -78.51021288654005),
+    "School Of Data Science": (38.040807147654185, -78.50779984423728),
+    "Gilmer Hall": (38.03433525339996, -78.51309732884219),
+    "Thornton Hall": (38.03339090839922, -78.50970351541412),
+    "Randolph Building": (38.0346, -78.5037),
+    "Brooks Hall": (38.03583035155552, -78.50212002884308),
+    "Garrett Hall": (38.034287254422296, -78.50561798654205),
+    "Fayerweather Hall": (38.0379491005475, -78.50305652884641),
+    "Physics/Jesse Beams Laboratory": (38.03439766329621, -78.51024255213036),
+    "Carruthers Hall": (38.049927679104066, -78.50145078657152),
+    "Pinn Hall": (38.03220211944995, -78.50074048867776),
+    "Olsson Hall": (38.03219785957511, -78.5107379154089),
+    "Corner Building": (38.03411710305797, -78.50011392884244),
+    "Frank C. McCue III Center": (38.04502624180039, -78.50771601539776),
+    "Bookstore/Central Grounds Parking": (38.03613610579155, -78.50742277315909),
+    "Campbell Hall": (38.03839790009241, -78.50413845768719),
+    "Old Ivy Hall": (38.04654664169031, -78.5178758442346),
+    "Ridley Hall": (38.034757904390744, -78.50947197115161),
+    "Ray C. Hunt Drive 560": (38.02561700893658, -78.52541512884531),
+    "Leake Building": (38.03610430283866, -78.51591829999896),
+    "Slaughter Recreation Center": (38.035147673684655, -78.5176498965977)
+}
+
+# Create dataframe from dictionary
+df1 = pd.DataFrame(list(location_coordinates.items()), columns=["Location", "Coordinates"])
+
+# Split the coordinates into separate Latitude and Longitude columns
+df1['Latitude'] = df1['Coordinates'].apply(lambda x: x[0] if x[0] is not None else None)
+df1['Longitude'] = df1['Coordinates'].apply(lambda x: x[1] if x[1] is not None else None)
+
+# Drop the Coordinates column
+df1 = df1.drop(columns=['Coordinates'])
+
+# Save the dataframe to a CSV file
+file_path = 'location_coordinates.csv'
+df1.to_csv(file_path, index=False)
+
+file_path
