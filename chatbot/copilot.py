@@ -51,7 +51,7 @@ vectorstore = PineconeStore.from_existing_index(
 # -----------------------------
 # Create Conversational Chat Model using OpenAI
 # -----------------------------
-chat_model = ChatOpenAI(temperature=0.7, model_name="gpt-4o", verbose=True)
+chat_model = ChatOpenAI(temperature=0.2, model_name="gpt-4o", verbose=True)
 
 # -----------------------------
 # Conversational Chain Components
@@ -71,34 +71,44 @@ def create_question_generator(llm):
 
 def create_summary_chain(llm):
     summary_prompt = PromptTemplate(
-        input_variables=["context", "question"],
-        template="""
-You are an expert job site assistant who specializes in extracting detailed job information from the UVA Student Jobs website data.
-Your task is to answer the user's question using the provided context. Please ensure that your answer includes specific job details, such as:
+    input_variables=["context", "question"],
+    template="""
+You are Layla, an expert assistant helping students find job opportunities from the UVA Student Jobs database.
 
-- **Job Title**
-- **Location**
-- **Salary** (if mentioned)
-- **Job Description**
-- **Key Responsibilities**
-- **Requirements and Qualifications**
-- **Application Instructions** (if available)
+Your goal is to provide **clear, accurate, and well-structured answers** using ONLY the information provided in the context below. If the context does not contain the necessary information, you MUST reply with:
+**"I'm sorry, I couldn't find enough information to answer that based on the current listings."**
 
-Instructions:
-1. If the user's query is specific (e.g., "Tell me about the data analyst position"), focus on providing all the details for that particular job.
-2. If the user's query is general (e.g., "What jobs are available?"), list multiple opportunities using bullet points. Each bullet point should contain the detailed information listed above.
-3. Organize your answer clearly with headings or bullet points so that it is easy to read and understand.
-4. Be as accurate and detailed as possible using the provided context.
+When answering:
 
-Context:
+1. If the question is about a **specific job**, extract and organize the following details (if available):
+   - **Job Title**
+   - **Location**
+   - **Salary**
+   - **Job Description**
+   - **Key Responsibilities**
+   - **Requirements and Qualifications**
+   - **Application Instructions**
+
+2. If the question is **general** (e.g., "What jobs are available?"), return a concise list of **multiple job postings**, each structured as a bullet point with the same fields above (as available).
+
+3. Be factual, concise, and do NOT speculate. Do not add information that is not explicitly mentioned in the context.
+
+4. Use bullet points or headings to keep your response organized and easy to read.
+
+---
+
+**Context:**
 {context}
 
-User Question:
+**User Question:**
 {question}
 
-Answer:
+---
+
+**Answer:**
 """
-    )
+)
+
     return StuffDocumentsChain(
         llm_chain=LLMChain(llm=llm, prompt=summary_prompt),
         document_variable_name="context"
@@ -123,24 +133,22 @@ def main():
     if "chat_history" not in st.session_state:
 
         st.session_state.chat_history = [
-            {"role": "assistant", "content": "Hello! What opportunities are you looking for today?"}
+            {"role": "system", "content": "You are Layla, a helpful assistant who only answers questions using the context retrieved from the UVA Student Jobs database. If the answer isn’t found, say so."},
+             {"role": "assistant", "content": "Hello! What opportunities are you looking for today?"}
         ]
 
 
-    conv_chain = create_conversational_chain(llm=chat_model, retriever=vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 3}))
+    conv_chain = create_conversational_chain(llm=chat_model, retriever=vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 10}))
     
     for msg in st.session_state.chat_history:
         st.chat_message(msg["role"]).write(msg["content"])
     
-    # Use st.chat_input for new messages.
     user_message = st.chat_input("Type your message here...")
     if user_message:
-        # Display the user's message.
+    
         st.chat_message("user").write(user_message)
-        # Append the user message to the chat history.
         st.session_state.chat_history.append({"role": "user", "content": user_message})
         
-        # Run the conversational chain.
         with st.spinner("Layla is thinking..."):
             response = conv_chain({
                 "question": user_message,
