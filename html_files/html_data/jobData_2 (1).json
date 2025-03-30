@@ -1,0 +1,120 @@
+{
+  "Memorial Gymnasium": [
+    {
+      "title": "Facility Operations Assistant \u2013 Outdoor Support (Student Wage)",
+      "conciseDescription": "Assist with maintaining outdoor spaces and equipment for UVA Recreation. Ensure cleanliness, set up/take down gear, and report maintenance issues.",
+      "timePosted": "2025-03-28",
+      "wage": "$13/hour",
+      "requirements": "Must be able to work independently and lift 50 lbs.",
+      "responsibilities": "Clean, organize, and move recreational equipment. Monitor outdoor areas for safety.",
+      "startDate": "2025-04-01",
+      "eligibility": "Student Wage"
+    }
+  ],
+  "Bond House": [
+    {
+      "title": "Karsh Institute of Democracy Research Assistant (Student Wage)",
+      "conciseDescription": "Support democracy research projects by gathering sources and editing bibliographies. Assist with project organization and data entry.",
+      "timePosted": "2025-03-26",
+      "wage": "$15/hour",
+      "requirements": "Detail-oriented with strong reading and writing skills.",
+      "responsibilities": "Research, compile reading materials, and support faculty-led projects.",
+      "startDate": null,
+      "eligibility": "Student Wage"
+    }
+  ],
+  "Peabody Hall": [
+    {
+      "title": "Office Assistant (Student Wage) Federal Work Study Eligible",
+      "conciseDescription": "Provide administrative support for office tasks such as answering phones, scanning, and organizing files.",
+      "timePosted": "2025-03-25",
+      "wage": "$12/hour",
+      "requirements": "Eligible for Federal Work Study. Good communication and organization skills.",
+      "responsibilities": "Office support, phone handling, and file management.",
+      "startDate": null,
+      "eligibility": "Federal Work Study"
+    }
+  ],
+  "Bryan Hall": [
+    {
+      "title": "Student Instructor Assistant (SIA), ARCH/GSVS (Graduate Student Wage)",
+      "conciseDescription": "Assist ARCH/GSVS instructors with grading, Canvas uploads, and student correspondence. No in-class responsibility required.",
+      "timePosted": "2025-03-25",
+      "wage": "$17/hour",
+      "requirements": "Familiarity with course tools and ability to work independently.",
+      "responsibilities": "Manage course logistics, digital content, and communication.",
+      "startDate": null,
+      "eligibility": "Graduate Student Wage"
+    }
+  ],
+  "Booker House": [
+    {
+      "title": "Student Data Science Analyst (Federal Work Study Eligible)",
+      "conciseDescription": "Work with Enrollment Intelligence & Analytics on survey research and data projects. Ideal for students with R/Python experience.",
+      "timePosted": "2025-03-25",
+      "wage": "$16/hour",
+      "requirements": "Knowledge of R or Python. Strong analytical and writing skills.",
+      "responsibilities": "Survey analysis, data visualization, and institutional research.",
+      "startDate": null,
+      "eligibility": "Federal Work Study"
+    }
+  ],
+  "2400 Old Ivy Road": [
+    {
+      "title": "Community Resilience Research Assistant (Student Wage)",
+      "conciseDescription": "Assist IEN with research on climate resilience, justice, and energy transition. Help manage projects and analyze interviews.",
+      "timePosted": "2025-03-25",
+      "wage": "$15/hour",
+      "requirements": "Interest in climate/justice topics; research experience preferred.",
+      "responsibilities": "Data collection, literature review, and stakeholder interviews.",
+      "startDate": null,
+      "eligibility": "Student Wage"
+    },
+    {
+      "title": "IEN Student Research Assistant (SRA) - Chesapeake Bay Stakeholder Assessment (Student Wage)",
+      "conciseDescription": "Support stakeholder assessment for Chesapeake Bay with IEN. Analyze interviews and literature, and assist with workshop design.",
+      "timePosted": "2025-03-24",
+      "wage": "$15/hour",
+      "requirements": "Detail-oriented; interest in environmental issues.",
+      "responsibilities": "Qualitative analysis, note-taking, and event preparation.",
+      "startDate": null,
+      "eligibility": "Student Wage"
+    }
+  ],
+  "Hotel D": [
+    {
+      "title": "Undergraduate Student Teaching Consultants (Student Wage)",
+      "conciseDescription": "Provide peer feedback and consultation to instructors. Observe classes and support evidence-based teaching improvements.",
+      "timePosted": "2025-03-23",
+      "wage": "$15/hour",
+      "requirements": "Strong communication and writing skills.",
+      "responsibilities": "Conduct observations, write reports, and meet with instructors.",
+      "startDate": null,
+      "eligibility": "Student Wage"
+    }
+  ],
+  "Monroe Hall": [
+    {
+      "title": "Office Assistant (Student Wage)",
+      "conciseDescription": "Support general office duties for the Undergraduate College of A&S. Includes event staffing and file organization.",
+      "timePosted": "2025-03-21",
+      "wage": "$12/hour",
+      "requirements": "Professionalism, communication, and multitasking ability.",
+      "responsibilities": "Front desk work, event setup, and administrative tasks.",
+      "startDate": null,
+      "eligibility": "Student Wage"
+    }
+  ],
+  "Darden Faculty": [
+    {
+      "title": "Darden Graduate Statistical Research Assistant",
+      "conciseDescription": "Assist Darden professors with statistical research, data cleaning, and academic projects. Great for PhD-bound students.",
+      "timePosted": "2025-03-19",
+      "wage": "$20/hour",
+      "requirements": "Experience with R, Stata, or Python. Research interest required.",
+      "responsibilities": "Statistical programming, literature review, and research support.",
+      "startDate": null,
+      "eligibility": "Graduate Student"
+    }
+  ]
+}
