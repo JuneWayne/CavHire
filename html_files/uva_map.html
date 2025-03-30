@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>UVA Job Map – Circle Markers</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+      flex-wrap: wrap;
+    }
+
+    #map {
+      flex: 1;
+      min-width: 300px;
+      height: 100%;
+    }
+
+    #chat-iframe {
+      width: 400px;
+      height: 100%;
+      border: none;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      #map {
+        height: 70%;
+        width: 100%;
+      }
+
+      #chat-iframe {
+        width: 100%;
+        height: 30%;
+      }
+
+      #job-panel {
+        top: 60px;
+        left: 10px;
+        right: 10px;
+        max-width: unset;
+        width: calc(100% - 20px);
+      }
+    }
+
+    #back-button {
+      margin: 10px;
+      padding: 10px 20px;
+      position: absolute;
+      top: 10px;
+      left: 60px;
+      z-index: 9999;
+    }
+
+    #map-button {
+        margin: 10px;
+        padding: 10px 20px;
+        position: absolute;
+        top: 10px;
+        left: 880px;
+        z-index: 9999;
+    }
+
+    #filters {
+      position: absolute;
+      top: 90px;
+      left: 10px;
+      z-index: 9999;
+      background: white;
+      padding: 10px;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      font-family: sans-serif;
+    }
+
+    #filters select {
+      margin-bottom: 6px;
+      padding: 4px;
+      display: block;
+      width: 100%;
+    }
+
+    #job-panel {
+      display: none;
+      position: absolute;
+      top: 80px;
+      left: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 20px;
+      z-index: 10000;
+      max-width: 400px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      font-family: sans-serif;
+      overflow-y: auto;
+      max-height: 80vh;
+    }
+
+    .job-item {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    .job-details {
+      margin-top: 5px;
+      color: #555;
+      display: none;
+    }
+
+    .job-item button {
+      margin-left: 10px;
+      padding: 3px 8px;
+    }
+
+    /* Circle Marker Styling */
+    .custom-marker {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      line-height: 34px;
+      user-select: none;
+      transition: transform 0.2s ease;
+    }
+
+    .custom-marker:hover {
+      transform: translateY(-6px) scale(1.1);
+      cursor: pointer;
+    }
+
+    /* Wage color variations */
+    .marker-low-a    { background: #4A90E2; }
+    .marker-low-b    { background: #2C82C9; }
+    .marker-med-a    { background: #F39C12; }
+    .marker-med-b    { background: #D68910; }
+    .marker-high-a   { background: #27AE60; }
+    .marker-high-b   { background: #1E8449; }
+    .marker-unknown  { background: #7f8c8d; }
+  </style>
+</head>
+<body>
+
+  <button id="back-button" onclick="window.location.href='/'">← Back to Home</button>
+  <button id="map-button" onclick="window.location.href='/dynamic_calendar'" >📅 Open Calendar</button>
+
+
+  <div id="filters">
+    <label for="time-filter">Time Posted</label>
+    <select id="time-filter" onchange="applyAllFilters()">
+      <option value="all">All Time</option>
+      <option value="3">Past 3 Days</option>
+      <option value="7">Past Week</option>
+      <option value="14">Past 2 Weeks</option>
+      <option value="30">Past Month</option>
+      <option value="365">Past Year</option>
+    </select>
+
+    <label for="eligibility-filter">Eligibility</label>
+    <select id="eligibility-filter" onchange="applyAllFilters()">
+      <option value="all">All Eligibility</option>
+      <option value="Student Wage">Student Wage</option>
+      <option value="Graduate Student">Graduate Student</option>
+      <option value="Federal Work Study">Federal Work Study</option>
+      <option value="Staff Wage">Staff Wage</option>
+    </select>
+  </div>
+
+  <div class="container">
+    <div id="map"></div>
+    <iframe
+      id="chat-iframe"
+      src="https://junewayne-cavhire-chatbotcopilot-fyegt0.streamlit.app/?embed=true">
+    </iframe>
+  </div>
+
+  <div id="job-panel">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 id="location-title" style="margin: 0;">Jobs at Location</h3>
+      <button onclick="closeJobPanel()" style="margin-left: 10px;">✕</button>
+    </div>
+    <hr />
+    <div id="job-list"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([38.0356, -78.5034], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    let jobData = {};
+    let locationMeta = {};
+    let markers = [];
+
+    // Fetch job data first
+    fetch('/static/jobData_6.json')
+      .then(res => res.json())
+      .then(data => { jobData = data; });
+
+    // Chain summary + locations fetch to ensure proper loading order
+    fetch('/static/job_location_summary.json')
+      .then(res => res.json())
+      .then(summary => {
+        summary.forEach(entry => {
+          locationMeta[entry.location] = {
+            wageLevel: entry.wageLevel,
+            jobCount: entry.jobCount
+          };
+        });
+
+        // Now safely fetch and render locations
+        return fetch('/static/locations.json');
+      })
+      .then(res => res.json())
+      .then(locations => {
+        let index = 0;
+        Object.entries(locations).forEach(([name, coords]) => {
+          const meta = locationMeta[name] || {};
+          const jobCount = meta.jobCount || 0;
+          const baseLevel = meta.wageLevel || "unknown";
+          const variation = (index % 2 === 0) ? "a" : "b";
+          const className = (baseLevel === "unknown") ? "marker-unknown" : `marker-${baseLevel}-${variation}`;
+          index++;
+
+          const icon = L.divIcon({
+            className: '',
+            html: `<div class="custom-marker ${className}" title="${name}: ${jobCount} job${jobCount !== 1 ? 's' : ''}">${jobCount}</div>`,
+            iconSize: [34, 34],
+            iconAnchor: [17, 34]
+          });
+
+          const marker = L.marker([coords.lat, coords.lng], { icon });
+          marker.bindPopup(`<b>${name}</b><br><button onclick="showJobs('${name}')">View Jobs</button>`);
+          marker._locationName = name;
+          marker.addTo(map);
+          markers.push(marker);
+        });
+      });
+
+    function applyAllFilters() {
+      const days = document.getElementById("time-filter").value;
+      const elig = document.getElementById("eligibility-filter").value;
+      const now = new Date();
+
+      markers.forEach(marker => {
+        const loc = marker._locationName;
+        const jobs = jobData[loc] || [];
+
+        const filtered = jobs.filter(job => {
+          let valid = true;
+          if (days !== "all") {
+            const posted = new Date(job.timePosted);
+            const diff = (now - posted) / (1000 * 60 * 60 * 24);
+            if (diff > parseInt(days)) valid = false;
+          }
+          if (elig !== "all" && !job.eligibility.includes(elig)) valid = false;
+          return valid;
+        });
+
+        if (filtered.length > 0) {
+          marker.addTo(map);
+        } else {
+          map.removeLayer(marker);
+        }
+      });
+    }
+
+    function showJobs(location) {
+      const allJobs = jobData[location] || [];
+      const days = document.getElementById("time-filter").value;
+      const elig = document.getElementById("eligibility-filter").value;
+      const now = new Date();
+
+      const jobs = allJobs.filter(job => {
+        let valid = true;
+        if (days !== "all") {
+          const posted = new Date(job.timePosted);
+          const diff = (now - posted) / (1000 * 60 * 60 * 24);
+          if (diff > parseInt(days)) valid = false;
+        }
+        if (elig !== "all" && !job.eligibility.includes(elig)) valid = false;
+        return valid;
+      });
+
+      document.getElementById('location-title').textContent = `Jobs at ${location}`;
+      const jobList = document.getElementById('job-list');
+      jobList.innerHTML = '';
+
+      jobs.forEach((job, index) => {
+        const jobDiv = document.createElement('div');
+        jobDiv.className = 'job-item';
+        jobDiv.innerHTML = `
+          <strong>${job.title}</strong>
+          <button onclick="toggleDetails(${index}, '${location}')">Details</button>
+          <div class="job-details" id="details-${location}-${index}">
+            <p><strong>Description:</strong> ${job.description || 'N/A'}</p>
+            <p><strong>Time Posted:</strong> ${job.timePosted || 'N/A'}</p>
+            <p><strong>Wage:</strong> ${job.wage || 'N/A'}</p>
+            <p><strong>Start Date:</strong> ${job.startDate || 'N/A'}</p>
+            <p><strong>Requirements:</strong> ${job.requirements || 'N/A'}</p>
+            <p><strong>Responsibilities:</strong> ${job.responsibilities || 'N/A'}</p>
+            <p><strong>Eligibility:</strong> ${job.eligibility || 'N/A'}</p>
+          </div>`;
+        jobList.appendChild(jobDiv);
+      });
+
+      document.getElementById('job-panel').style.display = 'block';
+    }
+
+    function toggleDetails(index, location) {
+      const detailEl = document.getElementById(`details-${location}-${index}`);
+      detailEl.style.display = detailEl.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function closeJobPanel() {
+      document.getElementById('job-panel').style.display = 'none';
+    }
+
+    document.addEventListener('click', function (event) {
+      const panel = document.getElementById('job-panel');
+      const popup = document.querySelector('.leaflet-popup');
+      if (
+        panel.style.display === 'block' &&
+        !panel.contains(event.target) &&
+        (!popup || !popup.contains(event.target))
+      ) {
+        panel.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+[
+  {
+    "location":"2400 Old Ivy Road",
+    "jobCount":3,
+    "wageLevel":"high"
+  },
+  {
+    "location":"8095 Innovation Park Drive",
+    "jobCount":3,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Aquatic &amp; Fitness Center",
+    "jobCount":4,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Astronomy Building",
+    "jobCount":1,
+    "wageLevel":"medium"
+  },
+  {
+    "location":"Biocomplexity Center",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Bond House",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Booker House",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Bookstore\/Central Grounds Parking",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Brooks Hall",
+    "jobCount":2,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Bryan Hall",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Campbell Hall",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Carruthers Hall",
+    "jobCount":2,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Chemistry Building",
+    "jobCount":5,
+    "wageLevel":"high"
+  },
+  {
+    "location":"College at Wise",
+    "jobCount":3,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Corner Building",
+    "jobCount":2,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Darden Faculty",
+    "jobCount":3,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Dell Building #1",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Drama Education Building",
+    "jobCount":2,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Edgar Shannon Library",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Faulkner House",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Fayerweather Hall",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Frank C. McCue III Ctr",
+    "jobCount":2,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Garrett Hall",
+    "jobCount":1,
+    "wageLevel":"medium"
+  },
+  {
+    "location":"Gibbons House",
+    "jobCount":3,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Gilmer Hall",
+    "jobCount":4,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Halsey Hall",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Harrison Institute And Small Special Collections Library",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Hotel D",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"John Paul Jones Arena",
+    "jobCount":2,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Leake Building",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Memorial Gymnasium",
+    "jobCount":3,
+    "wageLevel":"medium"
+  },
+  {
+    "location":"Michie North",
+    "jobCount":1,
+    "wageLevel":"medium"
+  },
+  {
+    "location":"Michie South",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Minor Hall",
+    "jobCount":2,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Monroe Hall",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Morven Farm Pigeon Coop Guest House",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"New Cabell Hall",
+    "jobCount":2,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Newcomb Hall",
+    "jobCount":6,
+    "wageLevel":"high"
+  },
+  {
+    "location":"North Grounds Recreation Ctr",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Old Cabell Hall",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Old Ivy Hall",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Olsson Hall",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Parking &amp; Transit",
+    "jobCount":2,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Peabody Hall",
+    "jobCount":2,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Physics\/Jesse Beams Laboratory",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Pinn Hall",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Randolph Building",
+    "jobCount":5,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Ray C. Hunt Drive 560",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Remote - Virginia",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Ridley Hall",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Rotunda",
+    "jobCount":3,
+    "wageLevel":"low"
+  },
+  {
+    "location":"School Of Data Science",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Shumway Hall",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Skipwith Hall",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Slaughter Recreation Center",
+    "jobCount":2,
+    "wageLevel":"high"
+  },
+  {
+    "location":"South Lawn Nau Hall",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Student Health And Wellness Center",
+    "jobCount":4,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Thornton Hall",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Town Center Four",
+    "jobCount":1,
+    "wageLevel":"low"
+  },
+  {
+    "location":"Wilson Hall",
+    "jobCount":1,
+    "wageLevel":"high"
+  },
+  {
+    "location":"Work Study Community Location",
+    "jobCount":7,
+    "wageLevel":"high"
+  }
+]

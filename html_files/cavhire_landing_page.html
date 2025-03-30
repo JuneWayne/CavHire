@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CavHire</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <style>
+    body, h1, h2, h3, h4, h5, h6 {
+      font-family: "Lato", sans-serif;
+    }
+
+    .w3-bar, h1, button {
+      font-family: "Montserrat", sans-serif;
+    }
+
+    .fa-anchor, .fa-coffee {
+      font-size: 200px;
+    }
+
+    /* Block Reveal Title Animation */
+    .block-effect {
+      font-size: calc(8px + 6vw);
+    }
+
+    .block-reveal {
+      --t: calc(var(--td) + var(--d));
+      color: transparent;
+      padding: 4px;
+      position: relative;
+      overflow: hidden;
+      animation: revealBlock 0s var(--t) forwards;
+    }
+
+    .block-reveal::after {
+      content: '';
+      width: 0%;
+      height: 100%;
+      padding-bottom: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var(--bc);
+      animation: revealingIn var(--td) var(--d) forwards,
+                 revealingOut var(--td) var(--t) forwards;
+    }
+
+    @keyframes revealBlock {
+      100% { color: #0f0f0f; }
+    }
+
+    @keyframes revealingIn {
+      0% { width: 0; }
+      100% { width: 100%; }
+    }
+
+    @keyframes revealingOut {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Flip Animation */
+    .flip-words {
+      display: inline-block;
+      height: 40px;
+      overflow: hidden;
+      vertical-align: middle;
+    }
+
+    .flip-words span {
+      display: inline-block;
+      animation: flip 10s infinite;
+    }
+
+    .flip-words span div {
+      height: 40px;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    @keyframes flip {
+      0%   { transform: translateY(0); }
+      14.28%  { transform: translateY(-40px); }
+      28.56%  { transform: translateY(-80px); }
+      42.84%  { transform: translateY(-120px); }
+      57.12%  { transform: translateY(-160px); }
+      71.4%   { transform: translateY(-200px); }
+      85.68%  { transform: translateY(-240px); }
+      100%    { transform: translateY(0); }
+    }
+        .letter-image {
+      position: relative;
+      margin: 40px auto 0;
+      width: 200px;
+      height: 200px;
+      cursor: pointer;
+    }
+
+    .animated-mail {
+      position: absolute;
+      height: 150px;
+      width: 200px;
+      transition: .4s;
+    }
+
+    .animated-mail .body {
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 0 100px 200px;
+      border-color: transparent transparent #e95f55 transparent;
+      z-index: 2;
+    }
+
+    .animated-mail .top-fold {
+      position: absolute;
+      top: 50px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 50px 100px 0 100px;
+      transform-origin: 50% 0%;
+      transition: transform .4s .4s, z-index .2s .4s;
+      border-color: #cf4a43 transparent transparent transparent;
+      z-index: 2;
+    }
+
+    .animated-mail .back-fold {
+      position: absolute;
+      bottom: 0;
+      width: 200px;
+      height: 100px;
+      background: #cf4a43;
+      z-index: 0;
+    }
+
+    .animated-mail .left-fold {
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 50px 0 50px 100px;
+      border-color: transparent transparent transparent #e15349;
+      z-index: 2;
+    }
+
+    .animated-mail .letter {
+      left: 20px;
+      bottom: 0;
+      position: absolute;
+      width: 160px;
+      height: 60px;
+      background: white;
+      z-index: 1;
+      overflow: hidden;
+      transition: .4s .2s;
+    }
+
+    .animated-mail .letter-border {
+      height: 10px;
+      background: repeating-linear-gradient(
+        -45deg,
+        #cb5a5e,
+        #cb5a5e 8px,
+        transparent 8px,
+        transparent 18px
+      );
+    }
+
+    .animated-mail .letter-title {
+      margin-top: 10px;
+      margin-left: 5px;
+      height: 10px;
+      width: 40%;
+      background: #cb5a5e;
+    }
+
+    .animated-mail .letter-context {
+      margin-top: 10px;
+      margin-left: 5px;
+      height: 10px;
+      width: 20%;
+      background: #cb5a5e;
+    }
+
+    .animated-mail .letter-stamp {
+      margin-top: 30px;
+      margin-left: 120px;
+      border-radius: 100%;
+      height: 30px;
+      width: 30px;
+      background: #cb5a5e;
+      opacity: 0.3;
+    }
+
+    .shadow {
+      position: absolute;
+      top: 200px;
+      left: 50%;
+      width: 400px;
+      height: 30px;
+      transition: .4s;
+      transform: translateX(-50%);
+      border-radius: 100%;
+      background: radial-gradient(rgba(0,0,0,0.5), transparent, transparent);
+    }
+
+    /* Hover animation */
+    .letter-image:hover .animated-mail {
+      transform: translateY(50px);
+    }
+
+    .letter-image:hover .animated-mail .top-fold {
+      transform: rotateX(180deg);
+      z-index: 0;
+    }
+
+    .letter-image:hover .animated-mail .letter {
+      height: 180px;
+    }
+
+    .letter-image:hover .shadow {
+      width: 250px;
+    }
+    .cursive-label {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 36px;
+      color: #fff;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    }
+    .w3-uva-orange {
+      background-color: #E57200 !important;
+      color: white;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red"
+       href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu">
+      <i class="fa fa-bars"></i>
+    </a>
+    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a href="/dynamic_calendar" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personal Calendar</a>
+    <a href="/analytics" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Job Analytics</a>
+    <a href="https://career.virginia.edu/sites/g/files/jsddwu971/files/2022-10/How%20to%20Find%20a%20Job%20On-Grounds_0.pdf"
+   target="_blank"
+   class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">
+   On-Grounds Jobs with UVA Career Center (PDF)
+</a>
+
+    <a href="https://hr.virginia.edu/compliance/student-i-9-documentation" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">I-9 On-Boarding (For International Students)</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-orange w3-center" style="padding:128px 16px">
+  <h1 class="w3-margin w3-jumbo block-effect" style="--td: 1.2s">
+    <div class="block-reveal" style="--bc: #4040bf; --d: .1s; font-family: Brush Script MT; font-size: 95px;">
+      Hoo Wants A Job?
+    </div>
+    <div class="block-reveal" style="--bc: #bf4060; --d: .5s; font-size: 40px">
+      <strong>An AI Powered</strong> One Stop Hub
+    </div>
+    <div class="block-reveal" style="--bc: #d5d535; --d: .8s; font-size: 40px">
+      for UVA <strong>student job opportunities</strong>
+    </div>
+  </h1>
+  <p class="w3-xlarge">Ever felt caught up searching for jobs on-grounds?</p>
+  <p class="w3-xlarge">Don't Worry! Cav Hires has you covered!</p>
+  <h2 class="cursive-label">View Student Opportunities Map⬇️🎁</h2>
+  <div class="letter-image" onclick="window.location.href='/opportunities_map'">
+  <div class="animated-mail">
+    <div class="back-fold"></div>
+    <div class="letter">
+      <div class="letter-border"></div>
+      <div class="letter-title"></div>
+      <div class="letter-context"></div>
+      <div class="letter-stamp">
+        <div class="letter-stamp-inner"></div>
+      </div>
+    </div>
+    <div class="top-fold"></div>
+    <div class="body"></div>
+    <div class="left-fold"></div>
+  </div>
+  <div class="shadow"></div>
+</div>
+
+</header>
+
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>
+        Finding your next on-grounds employment
+        <span class="flip-words">
+          <span>
+            <div>effortlessly</div>
+            <div>visually</div>
+            <div>locally</div>
+            <div>creatively</div>
+            <div>strategically</div>
+            <div>confidently</div>
+            <div>passionately</div>
+          </span>
+        </span>
+      </h1>
+      <h5 class="w3-padding-32">
+        Desperate for a side income? Trying to gain experience outside from classrooms? Don't have a Social Security Number as an International Student? <strong> Congratulations </strong>, you are at the right place, right time.
+      </h5>
+      <p class="w3-text-grey">
+        Explore all facets of this website — a comprehensive opportunities map, a personal planner, and job-enhancement tools all designed to help you land your next <i>dream job</i>.
+        CavHires is committed to open-sourcing on-campus opportunities and eliminating the hassle of job searching.
+      </p>
+    </div>
+
+    <div class="w3-third w3-center">
+      <img src="/static/Cavman.jpg" alt="Anchor Image" style="width: 600px; height: auto; padding: 64px;"/>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+        <div class="w3-third" style="display: flex; justify-content: center;align-items: flex-start; padding-top: 200px;">
+            <img src="/static/confused.gif" alt="Animated GIF" style="width: 400px; height: 350px;" />
+        </div>
+
+    </div>
+    <div class="w3-twothird">
+      <h1>Frequently Asked Questions</h1>
+
+      <h5 class="w3-padding-16"><b>What is this website for?</b></h5>
+      <p class="w3-text-grey">
+        This site helps UVA students explore on-campus job opportunities using an interactive map that decentralizes hidden opportunities. It’s fast, visual, and requires no login.
+      </p>
+
+      <h5 class="w3-padding-16"><b>How do I find jobs near specific locations?</b></h5>
+      <p class="w3-text-grey">
+        Head to the map view, hover or click on a location pin to see jobs at that building. Job listings are grouped by on-campus addresses.
+      </p>
+
+      <h5 class="w3-padding-16"><b>Can I save job reminders?</b></h5>
+      <p class="w3-text-grey">
+        Yes! You can add custom reminders for job applications or interviews directly into your personal calendar. Everything is stored locally on your browser.
+      </p>
+
+      <h5 class="w3-padding-16"><b>Do I need to log in?</b></h5>
+      <p class="w3-text-grey">
+        No account or login required. Reminders and calendar events are stored safely on your device using local storage.
+      </p>
+
+      <h5 class="w3-padding-16"><b>What can the chatbot do?</b></h5>
+      <p class="w3-text-grey">
+        The chatbot helps you navigate the platform, answer job-related questions, explain filters, and assist with how to use each feature.
+      </p>
+
+      <h5 class="w3-padding-16"><b>Who can I contact for support?</b></h5>
+      <p class="w3-text-grey">
+        This is an open source project. You can find the contributors and their contact info on GitHub at <a href="https://github.com/JuneWayne/CavHire" target="_blank">CavHire repo</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Quote -->
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+  <h1 class="w3-margin w3-xlarge">The secret of getting ahead is getting started</h1>
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity">
+  <div class="w3-xlarge w3-padding-32">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+  </div>
+  <p>Powered by the dedication, love, and unlimited passion by members of the BSDS Squad #27</p>
+</footer>
+
+<script>
+  function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else {
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+</script>
+</body>
+</html>

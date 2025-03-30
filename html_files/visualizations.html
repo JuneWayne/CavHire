@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Job Analytics Visualized</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #E57200 !important;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+    }
+
+    .chart-container {
+      margin: 40px auto;
+      max-width: 900px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .back-button {
+      margin-bottom: 20px;
+      display: inline-block;
+      padding: 10px 20px;
+      background: #2c3e50;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .back-button:hover {
+      background: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+  <a href="/" class="back-button">← Back to Home</a>
+  <h1>UVA Job Analytics</h1>
+
+  <div class="chart-container">
+    <h2>Distribution of Job Types</h2>
+    <div id="jobTypeChart"></div>
+  </div>
+
+  <div class="chart-container">
+    <h2>Jobs per Location</h2>
+    <div id="locationChart"></div>
+  </div>
+
+  <div class="chart-container">
+    <h2>Monthly Job Postings</h2>
+    <div id="monthlyChart"></div>
+  </div>
+
+  <script>
+    // Fix for job type distribution
+    fetch('/static/jobs_by_type.json')
+      .then(res => res.json())
+      .then(data => {
+        const labels = data.map(d => d.type);
+        const values = data.map(d => d.count);
+        Plotly.newPlot('jobTypeChart', [{
+          type: 'pie',
+          labels: labels,
+          values: values,
+          textinfo: "label+percent",
+        }], {
+          title: "Job Types"
+        });
+      });
+
+    // Fix for jobs by location
+    fetch('/static/jobs_by_location.json')
+      .then(res => res.json())
+      .then(data => {
+        const x = data.map(d => d.location);
+        const y = data.map(d => d.jobCount);
+        Plotly.newPlot('locationChart', [{
+          type: 'bar',
+          x: x,
+          y: y,
+          marker: { color: '#E57200' }
+        }], {
+          title: "Jobs by Location",
+          xaxis: { title: "Location", automargin: true },
+          yaxis: { title: "Number of Jobs" }
+        });
+      });
+
+    // Fix for jobs by day/month
+    fetch('/static/jobs_by_day.json')
+      .then(res => res.json())
+      .then(data => {
+        const x = data.map(d => d.date || d.day || d.month || "Unknown");
+        const y = data.map(d => d.jobCount || d.count || 0);
+        Plotly.newPlot('monthlyChart', [{
+          x: x,
+          y: y,
+          type: 'scatter',
+          mode: 'lines+markers',
+          line: { shape: 'spline', color: '#0072CE' }
+        }], {
+          title: "Monthly Job Postings",
+          xaxis: { title: "Month or Day" },
+          yaxis: { title: "Number of Jobs" }
+        });
+      });
+  </script>
+</body>
+</html>
