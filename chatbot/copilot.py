@@ -20,7 +20,7 @@ load_dotenv('../.env')
 # -----------------------------
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-PINECONE_ENV = os.getenv("PINECONE_ENV")  # e.g., "us-west-2"
+PINECONE_ENV = os.getenv("PINECONE_ENV")  
 
 if not OPENAI_API_KEY:
     st.error("Missing OPENAI_API_KEY in your environment.")
@@ -33,22 +33,16 @@ openai.api_key = OPENAI_API_KEY
 
 INDEX_NAME = "uva-jobs"
 
-# --- Workaround for LangChain compatibility ---
-# In the new Pinecone client, the index is of type pinecone.data.index.Index,
-# but LangChain expects pinecone.Index. We patch it here:
 pinecone.Index = pinecone.data.index.Index
 
-# Initialize Pinecone client using the new API
 from pinecone import Pinecone, ServerlessSpec
 pc = Pinecone(api_key=PINECONE_API_KEY)
 if INDEX_NAME not in pc.list_indexes().names():
     st.error(f"Index {INDEX_NAME} not found. Please run ingestion.py first.")
     st.stop()
 
-# Create an instance of OpenAIEmbeddings for retrieval embeddings.
 openai_embedding = OpenAIEmbeddings(model="text-embedding-ada-002")
 
-# Load vector store from Pinecone using OpenAI embeddings.
 vectorstore = PineconeStore.from_existing_index(
     index_name=INDEX_NAME,
     embedding=lambda x: openai_embedding.embed_query(x)
@@ -79,10 +73,14 @@ def create_summary_chain(llm):
     summary_prompt = PromptTemplate(
         input_variables=["context", "question"],
         template="""
-You are a helpful job site web-crawler who has scraped open job opportunities from the UVA Student Jobs website.
-Your task:
-1. Answer the question based on the specific query that the user provided
-2. if the user asked a general query, i.e. tell me about jobs available, answer comprehensively and provide all details 
+You are a knowledgeable job site web-crawler that has scraped open job opportunities from the UVA Student Jobs website.
+Your task is to answer the user's question with accurate and detailed job information extracted from the provided context.
+Please follow these guidelines:
+
+1. **Detail Specifics:** If the user's query is specific (e.g., "Tell me about the data analyst position"), provide detailed job information including job title, location, salary (if available), job description, requirements, and application instructions.
+2. **Comprehensive Overview:** If the user's query is general (e.g., "What jobs are available?"), summarize a list of job opportunities. Use bullet points to separate each job and include all relevant details for each.
+3. **Clarity and Accuracy:** Ensure your response is clear, well-organized, and as accurate as possible, using the context provided.
+4. **Formatting:** Use bullet points, headings, or clear paragraphs to organize the information.
 
 Context:
 {context}
@@ -114,14 +112,13 @@ def main():
     st.title("UVA Student Jobs Chatbot 🐈")
     st.subheader("Chat with Layla about job opportunities on the UVA Student Jobs website!")
     
-    # Initialize chat history if not present.
     if "chat_history" not in st.session_state:
-        st.session_state.chat_history = []
-    
-    # Create conversational chain.
+        st.session_state.chat_history = [
+            {"role": "assistant", "content": "Hello! What opportunities are you looking for today?"}
+        ]
+
     conv_chain = create_conversational_chain(llm=chat_model, retriever=vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 3}))
     
-    # Display previous messages using Streamlit's chat interface.
     for msg in st.session_state.chat_history:
         st.chat_message(msg["role"]).write(msg["content"])
     
@@ -145,7 +142,6 @@ def main():
         st.chat_message("assistant").write(answer)
         st.session_state.chat_history.append({"role": "assistant", "content": answer})
         
-        # (Optional) Clear input if desired by re-rendering; st.chat_input clears automatically.
 
 if __name__ == "__main__":
     main()
