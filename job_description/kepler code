@@ -1,0 +1,132 @@
+import pandas as pd
+from keplergl import KeplerGl
+
+# Predefined dictionary of locations and their corresponding coordinates
+location_coordinates = {
+    "Memorial Gymnasium": (38.0446, -78.5070),
+    "Bond House": (38.0368, -78.5034),
+    "Peabody Hall": (38.0356, -78.5021),
+    "Bryan Hall": (38.0359, -78.5032),
+    "Booker House": (38.0337, -78.5079),
+    "2400 Old Ivy Road": (38.0491, -78.5090),
+    "Hotel D": (38.0353, -78.5031),
+    "Monroe Hall": (38.0355, -78.5033),
+    "Darden Faculty": (38.0532, -78.5135),
+    "Faulkner House": (38.0345, -78.5070),
+    "Skipwith Hall": (38.0352, -78.5028),
+    "Newcomb Hall": (38.0360, -78.5050),
+    "Shumway Hall": (38.0349, -78.5026),
+    "North Grounds Recreation Center": (38.0541, -78.5130),
+    "Morven Farm Pigeon Coop Guest House": (37.9410, -78.5200),
+    "Michie South": (38.0550, -78.5140),
+    "Edgar Shannon Library": (38.0357, -78.5055),
+    "Aquatic & Fitness Center": (38.0348, -78.5100),
+    "College at Wise": (36.9741, -82.5787),
+    "8095 Innovation Park Drive": (38.7742, -77.5180),
+    "Gibbons House": (38.0340, -78.5075),
+    "Rotunda": (38.0356, -78.5033),
+    "Biocomplexity Center": (38.0335, -78.5072),
+    "Work Study Community Location": (None, None),
+    "South Lawn Nau Hall": (38.0345, -78.5050),
+    "Student Health And Wellness Center": (38.0338, -78.5075),
+    "Minor Hall": (38.0357, -78.5030),
+    "Harrison Institute And Small Special Collections Library": (38.0355, -78.5032),
+    "New Cabell Hall": (38.0348, -78.5035),
+    "Drama Education Building": (38.0342, -78.5060),
+    "Chemistry Building": (38.0350, -78.5040),
+    "Halsey Hall": (38.0351, -78.5030),
+    "John Paul Jones Arena": (38.0460, -78.5070),
+    "Astronomy Building": (38.0349, -78.5033),
+    "Wilson Hall": (38.0352, -78.5040),
+    "Town Center Four": (38.0297, -78.4767),
+    "Michie North": (38.0552, -78.5142),
+    "Parking & Transit": (38.0339, -78.5078),
+    "Old Cabell Hall": (38.0345, -78.5050),
+    "Dell Building #1": (38.0330, -78.5070),
+    "School Of Data Science": (38.0340, -78.5075),
+    "Gilmer Hall": (38.0347, -78.5045),
+    "Thornton Hall": (38.0350, -78.5048),
+    "Randolph Building": (38.0346, -78.5037),
+    "Brooks Hall": (38.0354, -78.5032),
+    "Garrett Hall": (38.0352, -78.5035),
+    "Fayerweather Hall": (38.0353, -78.5033),
+    "Physics/Jesse Beams Laboratory": (38.0349, -78.5040),
+    "Carruthers Hall": (38.0485, -78.5005),
+    "Pinn Hall": (38.0315, -78.5000),
+    "Olsson Hall": (38.0351, -78.5046),
+    "Corner Building": (38.0365, -78.5005),
+    "Frank C. McCue III Center": (38.0335, -78.5075),
+    "Bookstore/Central Grounds Parking": (38.0350, -78.5060),
+    "Campbell Hall": (38.0347, -78.5042),
+    "Old Ivy Hall": (38.0490, -78.5095),
+    "Ridley Hall": (38.0349, -78.5038),
+    "Ray C. Hunt Drive 560": (38.0450, -78.5075),
+    "Leake Building": (38.0335, -78.5065),
+    "Slaughter Recreation Center": (38.0337, -78.5068)
+}
+
+# List of job titles (using the full list you provided)
+job_titles = [
+    'Facility Operations Assistant – Outdoor Support (Student Wage)',
+    'Karsh Institute of Democracy Research Assistant - Hybrid Position (Student Wage)',
+    'Office Assistant (Student Wage) Federal Work Study',
+    'Student Instructor Assistant (SIA), ARCH/GSVS 2150 GLOBAL SUSTAINABILITY (Student Wage)',
+    'Student Data Science Analyst (Federal Work Study, Student Wage)',
+    'Community Resilience Research Assistant (Student Wage)',
+    'IEN Student Research Assistant (SRA) - Chesapeake Bay Stakeholder Engagement (Student Wage)',
+    'Undergraduate Student Teaching Consultants (Student Wage)',
+    'Office Assistant (Student Wage)',
+    'Darden Graduate Statistical Research Assistant [Remote] (Student Wage)',
+    'DCTI Assistant (Student Wage)',
+    'Sustainability Student Employee (Student Wage)',
+    'Student Engagement CIO Support Intern - Federal Work-Study Position (Student Wage)',
+    'Darden Technical Research Assistant (Remote), Summer 2025 (Student Wage)',
+    'Darden General Research Assistant, Summer 2025 (Remote) (Student Wage)',
+    'Help Desk Student Worker (Student Wage)',
+    'Facility Operations Assistant, North Grounds, Summer 2025 (Student Wage)',
+    'MKG Farm Crew Intern (Student Wage)',
+    'DocuSign Forms and Process Administrator Student Worker - Remote (Student Wage)',
+    'Operations Assistant, Summer 2025 (Student Wage)',
+    'Arts and Humanities Graduate Library Assistant (Student Wage)',
+    'AFC Facility Assistant (SUMMER 2025) (Student Wage)',
+    'College Services Generalist',
+    'UVA|Northern Virginia Inspire Instructor (Staff Wage and Student Wage)',
+    'Web Assistant (Student Wage)',
+    'Head Resident Community Advisor and Program Assistant (Graduate Student Wage)',
+    'Resident Community Advisor (RCA) (Student Wage)',
+    'Student Affairs Research Assistant – Storytelling (Student Wage)',
+    'Student Affairs Research Assistant— Data Analysis (Student Wage)',
+    'Biocomplexity Computing for Global Challenges Undergraduate Summer Intern (Student Wage)',
+    'Meals on Wheels Office Assistant (Federal Work Study Undergraduate Student Wage)',
+    'EAP Program Instructional Assistant (IA) Summer 2025 (Student Wage)',
+    'Graduate Assistant- Gordie Center Hazing Prevention Program Facilitator (Student Wage)',
+    'Marketing and Outreach Intern (Student Wage)',
+    'Undergraduate Admission Intern - Federal Work Study Position (Student Wage)',
+    'Student Archives Assistant (Born Digital Backlog Project) (Student Wage)',
+    # Add the other job titles...
+]
+
+# Create a DataFrame to store location data
+location_data = []
+for location, coords in location_coordinates.items():
+    if coords != (None, None):  # Exclude locations with missing coordinates
+        location_data.append({
+            "Location": location,
+            "Latitude": coords[0],
+            "Longitude": coords[1],
+            "Job Titles": ', '.join(job_titles)  # Assigning all job titles (consider revising logic)
+        })
+
+df = pd.DataFrame(location_data)
+
+# Initialize Kepler.gl map
+map_ = KeplerGl(height=600)
+
+# Add data to the map
+map_.add_data(data=df, name="UVA Jobs")
+
+# Save map configuration
+map_.save_to_html(file_name="uva_kepler_map.html")
+
+# Display the map
+map_
