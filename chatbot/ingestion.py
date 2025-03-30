@@ -36,10 +36,8 @@ if INDEX_NAME not in pc.list_indexes().names():
         )
     )
 
-# --- Workaround for LangChain compatibility ---
 pinecone.Index = pinecone.data.index.Index
 
-# --- Helper: Load CSV as Documents ---
 def load_documents_from_csv(csv_file: str):
     df = pd.read_csv(csv_file)
     docs = []
@@ -56,7 +54,6 @@ def load_documents_from_csv(csv_file: str):
             docs.append(Document(page_content=content, metadata=metadata))
     return docs
 
-# --- Main ingestion function ---
 def create_vector_store():
     print(f"Loading documents from {CSV_FILE} ...")
     docs = load_documents_from_csv(CSV_FILE)

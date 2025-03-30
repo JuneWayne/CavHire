@@ -154,7 +154,7 @@ def main():
             })
             answer = response.get("answer", "No answer found.")
         
-        # Display and store the assistant's response.
+      
         st.chat_message("assistant").write(answer)
         st.session_state.chat_history.append({"role": "assistant", "content": answer})
         
