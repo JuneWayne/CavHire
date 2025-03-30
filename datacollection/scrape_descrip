@@ -1,0 +1,64 @@
+#Importing necessary packages
+import requests # this fetches web pages
+from bs4 import BeautifulSoup
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+link= "https://uva.wd1.myworkdayjobs.com/en-US/UVAStudentJobs/job/Charlottesville-VA/Operations-Assistant--Summer-2025--Student-Wage-_R0070210"
+#Fetching the webpage
+
+
+import requests
+from bs4 import BeautifulSoup
+import json
+
+# URL of the job posting (replace with the actual URL if scraping from the web)
+url = 'https://uva.wd1.myworkdayjobs.com/en-US/UVAStudentJobs/job/Operations-Assistant--Summer-2025--Student-Wage-_R0070210'
+
+# Fetch the HTML content of the page
+response = requests.get(url)
+html_content = response.text
+
+# Parse the HTML content with BeautifulSoup
+soup = BeautifulSoup(html_content, 'html.parser')
+
+# Extract the job title
+job_title = soup.find('meta', {'property': 'og:title'})['content'] if soup.find('meta', {'property': 'og:title'}) else 'Job Title Not Found'
+
+# Extract the job description
+job_description = soup.find('meta', {'property': 'og:description'})['content'] if soup.find('meta', {'property': 'og:description'}) else 'Job Description Not Found'
+
+# Extract the job location (from JSON-LD)
+job_location = None
+json_ld_script = soup.find('script', {'type': 'application/ld+json'})
+if json_ld_script:
+    job_data = json.loads(json_ld_script.string)
+    if isinstance(job_data, dict):
+        job_location = job_data.get('jobLocation', {}).get('address', {}).get('addressLocality', 'Location Not Found')
+
+# Extract the date posted (from JSON-LD)
+date_posted = None
+if json_ld_script:
+    if isinstance(job_data, dict):
+        date_posted = job_data.get('datePosted', 'Date Posted Not Found')
+
+# Extract employment type (from JSON-LD)
+employment_type = None
+if json_ld_script:
+    if isinstance(job_data, dict):
+        employment_type = job_data.get('employmentType', 'Employment Type Not Found')
+
+# Extract the hourly rate
+hourly_rate = 'Not Available'  # You can adjust this if the rate is available directly in the HTML
+
+# Extract qualifications (if available)
+qualifications = 'Not Available'  # Modify this according to your needs, like looking for a section containing qualifications
+
+# Print extracted information
+print("Job Title:", job_title)
+print("Job Description:", job_description)
+print("Job Location:", job_location)
+print("Date Posted:", date_posted)
+print("Employment Type:", employment_type)
