@@ -31,7 +31,7 @@ if not PINECONE_API_KEY or not PINECONE_ENV:
 
 openai.api_key = OPENAI_API_KEY
 
-INDEX_NAME = "uva-jobs"
+INDEX_NAME = "csv-data-index"
 
 pinecone.Index = pinecone.data.index.Index
 
