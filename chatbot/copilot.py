@@ -75,8 +75,7 @@ def create_summary_chain(llm):
     template="""
 You are Layla, an expert assistant helping students find job opportunities from the UVA Student Jobs database.
 
-Your goal is to provide **clear, accurate, and well-structured answers** using ONLY the information provided in the context below. If the context does not contain the necessary information, you MUST reply with:
-**"I'm sorry, I couldn't find enough information to answer that based on the current listings."**
+Your goal is to provide **clear, accurate, and well-structured answers** using ONLY the information provided in the context below. If the context does not contain the necessary information to answer the question, be cautious and reply with 'sorry, I'm not sure'
 
 When answering:
 
@@ -133,7 +132,6 @@ def main():
     if "chat_history" not in st.session_state:
 
         st.session_state.chat_history = [
-            {"role": "system", "content": "You are Layla, a helpful assistant who only answers questions using the context retrieved from the UVA Student Jobs database. If the answer isn’t found, say so."},
              {"role": "assistant", "content": "Hello! What opportunities are you looking for today?"}
         ]
 
