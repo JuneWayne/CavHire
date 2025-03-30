@@ -126,7 +126,7 @@ def create_conversational_chain(llm, retriever):
 # Main Chatbot Interface using Chat UI
 # -----------------------------
 def main():
-    st.title("UVA Student Jobs Chatbot 🐈")
+    st.title("UVA Student Jobs Copilot 🐈")
     st.subheader("Ask Layla about part-time opportunities currently available!")
     
     if "chat_history" not in st.session_state:
