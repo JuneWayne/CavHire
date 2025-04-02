@@ -81,7 +81,8 @@ When answering:
 
 1. If the question is about a **specific job**, extract and organize the following details (if available):
    - **Job Title**
-   - **Location**
+   - **Company Name**
+   - **Job Location**
    - **Salary**
    - **Skills Desired**
    - **Number of Applicants So Far**
@@ -128,7 +129,7 @@ def create_conversational_chain(llm, retriever):
 # Main Chatbot Interface using Chat UI
 # -----------------------------
 def main():
-    st.title("UVA Student Jobs Copilot 😽")
+    st.title("Internship Finding Copilot 😽")
     #st.image("../html_files/html_data/uva.png", width=45)
     st.subheader("Ask Layla about Internship opportunities currently available!")
     
