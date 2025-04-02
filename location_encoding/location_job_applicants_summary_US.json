@@ -1,0 +1,232 @@
+[
+  {
+    "location": "Annapolis Junction, MD",
+    "number_of_jobs": 1,
+    "average_applicants": 28.0
+  },
+  {
+    "location": "Atlanta, GA",
+    "number_of_jobs": 2,
+    "average_applicants": 54.5
+  },
+  {
+    "location": "Austin, TX",
+    "number_of_jobs": 1,
+    "average_applicants": 191.0
+  },
+  {
+    "location": "Austin, Texas Metropolitan Area",
+    "number_of_jobs": 1,
+    "average_applicants": 118.0
+  },
+  {
+    "location": "Bakersfield, CA",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Birmingham, AL",
+    "number_of_jobs": 1,
+    "average_applicants": 36.0
+  },
+  {
+    "location": "Bohemia, NY",
+    "number_of_jobs": 1,
+    "average_applicants": 52.0
+  },
+  {
+    "location": "Boston, MA",
+    "number_of_jobs": 1,
+    "average_applicants": 193.0
+  },
+  {
+    "location": "Cambridge, MA",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Chicago, IL",
+    "number_of_jobs": 3,
+    "average_applicants": 48.0
+  },
+  {
+    "location": "Dallas, TX",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Des Moines, IA",
+    "number_of_jobs": 1,
+    "average_applicants": 72.0
+  },
+  {
+    "location": "Durham, NC",
+    "number_of_jobs": 1,
+    "average_applicants": 100.0
+  },
+  {
+    "location": "East Granby, CT",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Folsom, CA",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Fort Lauderdale, FL",
+    "number_of_jobs": 1,
+    "average_applicants": 125.0
+  },
+  {
+    "location": "Greater Chicago Area",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Greater Phoenix Area",
+    "number_of_jobs": 1,
+    "average_applicants": 36.0
+  },
+  {
+    "location": "Hackensack, NJ",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Jacksonville, FL",
+    "number_of_jobs": 2,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Keene, NH",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Little Rock, AR",
+    "number_of_jobs": 1,
+    "average_applicants": 60.0
+  },
+  {
+    "location": "Long Beach, CA",
+    "number_of_jobs": 1,
+    "average_applicants": 46.0
+  },
+  {
+    "location": "Los Angeles, CA",
+    "number_of_jobs": 2,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Maple Grove, MN",
+    "number_of_jobs": 1,
+    "average_applicants": 26.0
+  },
+  {
+    "location": "Miami, FL",
+    "number_of_jobs": 1,
+    "average_applicants": 32.0
+  },
+  {
+    "location": "Minneapolis, MN",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Mountain View, CA",
+    "number_of_jobs": 1,
+    "average_applicants": 108.0
+  },
+  {
+    "location": "New York, NY",
+    "number_of_jobs": 2,
+    "average_applicants": 138.0
+  },
+  {
+    "location": "New York, United States",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Newport Beach, CA",
+    "number_of_jobs": 1,
+    "average_applicants": 43.0
+  },
+  {
+    "location": "Norfolk, VA",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Orlando, FL",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Panama City, FL",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Paterson, NJ",
+    "number_of_jobs": 1,
+    "average_applicants": 47.0
+  },
+  {
+    "location": "Pensacola, FL",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "San Francisco, CA",
+    "number_of_jobs": 2,
+    "average_applicants": 160.5
+  },
+  {
+    "location": "San Jose, CA",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Seattle, WA",
+    "number_of_jobs": 1,
+    "average_applicants": 50.0
+  },
+  {
+    "location": "Spring, TX",
+    "number_of_jobs": 1,
+    "average_applicants": 191.0
+  },
+  {
+    "location": "St Louis, MO",
+    "number_of_jobs": 1,
+    "average_applicants": 26.0
+  },
+  {
+    "location": "Sugar Land, TX",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Sunnyvale, CA",
+    "number_of_jobs": 1,
+    "average_applicants": 168.0
+  },
+  {
+    "location": "United States",
+    "number_of_jobs": 4,
+    "average_applicants": 0.0
+  },
+  {
+    "location": "Washington, DC",
+    "number_of_jobs": 2,
+    "average_applicants": 137.5
+  },
+  {
+    "location": "Webster, TX",
+    "number_of_jobs": 1,
+    "average_applicants": 0.0
+  }
+]
