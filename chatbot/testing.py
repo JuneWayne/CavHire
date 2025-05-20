@@ -1,10 +1,11 @@
+
+# -----------------------------TESTING-----------------------------
 import os
 import warnings
 import streamlit as st
 from dotenv import load_dotenv
 import pinecone
 import openai
-import streamlit.components.v1 as components
 
 from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain.chains import ConversationalRetrievalChain, LLMChain
@@ -14,15 +15,15 @@ from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.chat_models import ChatOpenAI
 
 warnings.filterwarnings("ignore")
-
 load_dotenv('../.env')
+
+# -----------------------------
+# Configuration & Initialization
+# -----------------------------
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-PINECONE_ENV = os.getenv("PINECONE_ENV")
-AGENT_ID = os.getenv("AGENT_ID")            # your ElevenLabs agent
+PINECONE_ENV = os.getenv("PINECONE_ENV")  
 
-
-# key validation
 if not OPENAI_API_KEY:
     st.error("Missing OPENAI_API_KEY in your environment.")
     st.stop()
@@ -54,9 +55,11 @@ vectorstore = PineconeStore.from_existing_index(
 # -----------------------------
 chat_model = ChatOpenAI(temperature=0.2, model_name="gpt-4o", verbose=True)
 
-
+# -----------------------------
+# Conversational Chain Components
+# -----------------------------
 def create_question_generator(llm):
-    prompt = PromptTemplate(
+    question_gen_prompt = PromptTemplate(
         input_variables=["chat_history", "question"],
         template=(
             "Given the following conversation and a follow-up question, "
@@ -66,51 +69,52 @@ def create_question_generator(llm):
             "Standalone question:"
         ),
     )
-    return LLMChain(llm=llm, prompt=prompt)
+    return LLMChain(llm=llm, prompt=question_gen_prompt)
 
 def create_summary_chain(llm):
-    prompt = PromptTemplate(
-        input_variables=["context", "question"],
-        template="""
-    You are Layla, an expert assistant helping students find Data Science or related Internship opportunities from the LinkedIn Jobs database.
+    summary_prompt = PromptTemplate(
+    input_variables=["context", "question"],
+    template="""
+You are Layla, an expert assistant helping students find Data Science or related Internship opportunities from the LinkedIn Jobs database.
 
-    Your goal is to provide **clear, accurate, and well-structured answers** using ONLY the information provided in the context below. If the context does not contain the necessary information to answer the question, be cautious and reply with 'sorry, I'm not sure'
+Your goal is to provide **clear, accurate, and well-structured answers** using ONLY the information provided in the context below. If the context does not contain the necessary information to answer the question, be cautious and reply with 'sorry, I'm not sure'
 
-    When answering:
+When answering:
 
-    1. If the question is about a **specific job**, extract and organize the following details (if available):
-    - **Job Title**
-    - **Company Name**
-    - **Job Location**
-    - **Salary**
-    - **Skills Desired**
-    - **Number of Applicants So Far**
-    - **Key Responsibilities**
-    - **Qualifications Desired**
-    - **Key Responsibilities**
-    - **Application Instructions**
+1. If the question is about a **specific job**, extract and organize the following details (if available):
+   - **Job Title**
+   - **Company Name**
+   - **Job Location**
+   - **Salary**
+   - **Skills Desired**
+   - **Number of Applicants So Far**
+   - **Key Responsibilities**
+   - **Qualifications Desired**
+   - **Key Responsibilities**
+   - **Application Instructions**
 
-    2. If the question is **general** (e.g., "What jobs are available?"), return a concise list of **multiple job postings**, each structured as a bullet point with the same fields above (as available).
+2. If the question is **general** (e.g., "What jobs are available?"), return a concise list of **multiple job postings**, each structured as a bullet point with the same fields above (as available).
 
-    3. Be factual, concise, and do NOT speculate. Do not add information that is not explicitly mentioned in the context.
+3. Be factual, concise, and do NOT speculate. Do not add information that is not explicitly mentioned in the context.
 
-    4. Use bullet points or headings to keep your response organized and easy to read.
+4. Use bullet points or headings to keep your response organized and easy to read.
 
-    ---
+---
 
-    **Context:**
-    {context}
+**Context:**
+{context}
 
-    **User Question:**
-    {question}
+**User Question:**
+{question}
 
-    ---
+---
 
-    **Answer:**
-    """,
-    )
+**Answer:**
+"""
+)
+
     return StuffDocumentsChain(
-        llm_chain=LLMChain(llm=llm, prompt=prompt),
+        llm_chain=LLMChain(llm=llm, prompt=summary_prompt),
         document_variable_name="context"
     )
 
@@ -123,33 +127,23 @@ def create_conversational_chain(llm, retriever):
         combine_docs_chain=summary_chain
     )
 
-# streamlit
+# -----------------------------
+# Main Chatbot Interface using Chat UI
+# -----------------------------
 def main():
     st.title("Internship Finding Copilot 😽")
+    #st.image("../html_files/html_data/uva.png", width=45)
     st.subheader("Ask Layla about Internship opportunities currently available!")
-
-    # elevenlabs voice agent
-    if AGENT_ID:
-        st.markdown("### Voice Chat with Layla")
-        widget_html = f"""
-        <elevenlabs-convai
-          agent-id="{AGENT_ID}"
-          variant="expanded"
-          action-text="Speak to Layla"
-        ></elevenlabs-convai>
-        <script src="https://elevenlabs.io/convai-widget/index.js" async></script>
-        """
-        components.html(widget_html, height=350, scrolling=True)
-    else:
-        st.info("Voice agent not found")
-
+    
     if "chat_history" not in st.session_state:
+
         st.session_state.chat_history = [
-            {"role": "assistant", "content": "Hello! What opportunities are you looking for today?"}
+             {"role": "assistant", "content": "Hello! What opportunities are you looking for today?"}
         ]
 
+
     conv_chain = create_conversational_chain(llm=chat_model, retriever=vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 10}))
-        
+    
     for msg in st.session_state.chat_history:
         st.chat_message(msg["role"]).write(msg["content"])
     
@@ -166,7 +160,7 @@ def main():
             })
             answer = response.get("answer", "No answer found.")
         
-    
+      
         st.chat_message("assistant").write(answer)
         st.session_state.chat_history.append({"role": "assistant", "content": answer})
         
