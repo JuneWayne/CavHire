@@ -9,6 +9,8 @@ import streamlit.components.v1 as components
 from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain.chains import ConversationalRetrievalChain, LLMChain
 from langchain.prompts import PromptTemplate
+from langchain_pinecone import PineconeVectorStore
+from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Pinecone as PineconeStore
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.chat_models import ChatOpenAI
@@ -44,9 +46,10 @@ index = pc.Index(INDEX_NAME)
 
 openai_embedding = OpenAIEmbeddings(model="text-embedding-ada-002")
 
-vectorstore = PineconeStore.from_existing_index(
+embeddings = OpenAIEmbeddings()
+vectorstore = PineconeVectorStore.from_existing_index(
     index_name=INDEX_NAME,
-    embedding=lambda x: openai_embedding.embed_query(x)
+    embedding=embeddings,
 )
 
 # -----------------------------
