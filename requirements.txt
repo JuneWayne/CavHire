@@ -1,5 +1,6 @@
 langchain
-Pinecone
+pinecone
 google.generativeai
-langchain-pinecone
+langchain_pinecone
 streamlit
+langchain-pinecone
