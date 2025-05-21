@@ -12,6 +12,7 @@ from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores import Pinecone as PineconeStore
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.chat_models import ChatOpenAI
+from pinecone import Pinecone, ServerlessSpec
 
 warnings.filterwarnings("ignore")
 
@@ -19,10 +20,9 @@ load_dotenv('../.env')
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_ENV = os.getenv("PINECONE_ENV")
-AGENT_ID = os.getenv("AGENT_ID")            # your ElevenLabs agent
+AGENT_ID = os.getenv("AGENT_ID")            
 
 
-# key validation
 if not OPENAI_API_KEY:
     st.error("Missing OPENAI_API_KEY in your environment.")
     st.stop()
@@ -34,13 +34,13 @@ openai.api_key = OPENAI_API_KEY
 
 INDEX_NAME = "csv-jobdata-index"
 
-pinecone.Index = pinecone.data.index.Index
-
-from pinecone import Pinecone, ServerlessSpec
 pc = Pinecone(api_key=PINECONE_API_KEY)
+
 if INDEX_NAME not in pc.list_indexes().names():
     st.error(f"Index {INDEX_NAME} not found. Please run ingestion.py first.")
     st.stop()
+
+index = pc.Index(INDEX_NAME)
 
 openai_embedding = OpenAIEmbeddings(model="text-embedding-ada-002")
 
