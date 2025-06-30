@@ -55,7 +55,7 @@ vectorstore = PineconeVectorStore.from_existing_index(
 # -----------------------------
 # Create Conversational Chat Model using OpenAI
 # -----------------------------
-chat_model = ChatOpenAI(temperature=0.2, model_name="gpt-4o", verbose=True)
+chat_model = ChatOpenAI(temperature=0.4, model_name="gpt-4o", verbose=True)
 
 
 def create_question_generator(llm):
@@ -77,7 +77,7 @@ def create_summary_chain(llm):
         template="""
     You are Layla, an expert assistant helping students find Data Science or related Internship opportunities from the LinkedIn Jobs database.
 
-    Your goal is to provide **clear, accurate, and well-structured answers** using ONLY the information provided in the context below. If the context does not contain the necessary information to answer the question, be cautious and reply with 'sorry, I'm not sure'
+    Your goal is to provide **clear, accurate, and well-structured answers** using ONLY the information provided in the context below. 
 
     When answering:
 
