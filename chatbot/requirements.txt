@@ -1,5 +1,5 @@
 python-dotenv
-pinecone
+pinecone[async]>=6.0.0,<7.0.0
 google-generativeai
 openai
 langchain
