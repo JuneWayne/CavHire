@@ -77,7 +77,9 @@ def create_summary_chain(llm):
         template="""
     You are Layla, an expert assistant helping students find Data Science or related Internship opportunities from the LinkedIn Jobs database.
 
-    Your goal is to provide **clear, accurate, and well-structured answers** using ONLY the information provided in the context below. 
+    Your goal is to provide **clear, accurate, and well-structured answers** using ONLY the information provided in the job database provided.
+
+    The information in the job database is in JSON format.
 
     When answering:
 
