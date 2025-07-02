@@ -133,20 +133,20 @@ def main():
     st.title("Internship Finding Copilot 😽")
     st.subheader("Ask Layla about Internship opportunities currently available!")
 
-    # elevenlabs voice agent
-    if AGENT_ID:
-        st.markdown("### Voice Chat with Layla")
-        widget_html = f"""
-        <elevenlabs-convai
-            agent-id="{AGENT_ID}"
-            variant="expanded"
-            action-text="Speak to Layla"
-        ></elevenlabs-convai>
+    # # elevenlabs voice agent
+    # if AGENT_ID:
+    #     st.markdown("### Voice Chat with Layla")
+    #     widget_html = f"""
+    #     <elevenlabs-convai
+    #         agent-id="{AGENT_ID}"
+    #         variant="expanded"
+    #         action-text="Speak to Layla"
+    #     ></elevenlabs-convai>
 
-        <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async></script>
-        """
-    else:
-        st.info("Voice agent not found")
+    #     <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async></script>
+    #     """
+    # else:
+    #     st.info("Voice agent not found")
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = [
