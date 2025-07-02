@@ -137,25 +137,14 @@ def main():
     if AGENT_ID:
         st.markdown("### Voice Chat with Layla")
         widget_html = f"""
-
-        <style>
-        elevenlabs-convai {{
-            position: static !important;
-            display: block !important;
-            margin: 20px auto !important;  /* vertical space + auto horizontal centering */
-            width: fit-content !important;  /* shrink to content width */
-        }}
-        </style>
-        <div style="text-align: center;">
         <elevenlabs-convai
             agent-id="{AGENT_ID}"
             variant="expanded"
             action-text="Speak to Layla"
         ></elevenlabs-convai>
-        </div>
-        <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
-                """
-        components.html(widget_html, height=350, scrolling=True)
+
+        <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async></script>
+        """
     else:
         st.info("Voice agent not found")
 
